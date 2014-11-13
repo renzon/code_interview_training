@@ -1,4 +1,6 @@
 code_interview_training
 =======================
 
-Projec for training to code interview
+Project for training to code interview
+
+Each script.py starts with a comment indicating the exercise solved
