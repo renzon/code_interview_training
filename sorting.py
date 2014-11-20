@@ -89,8 +89,8 @@ def merg_rec(items):
     if len(items) < 2:
         yield from iter(items)
     else:
-        left_middle, rigth_middle = items.bisect()
-        yield from heapq.merge(merg_rec(left_middle), merg_rec(rigth_middle))
+        left_middle, right_middle = items.bisect()
+        yield from heapq.merge(merg_rec(left_middle), merg_rec(right_middle))
 
 
 def merge_sort(items):
