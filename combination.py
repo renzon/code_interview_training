@@ -48,3 +48,22 @@ def comb(item, n):
 print(list(comb(items, comb_number)))
 
 
+def all_combinations(items):
+    if not items:
+        return items
+
+    def recursive_combination(begin, combination):
+        if begin <= len(items):
+            yield list(combination)
+            for idx in range(begin, len(items)):
+                next_combination = list(combination)
+                next_combination.append(items[idx])
+                yield from recursive_combination(idx + 1, next_combination)
+
+
+    for idx, value in enumerate(items):
+        combination = [value]
+        yield from recursive_combination(idx + 1, combination)
+
+
+print(list(all_combinations(items)))
