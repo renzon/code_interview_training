@@ -1,8 +1,7 @@
-from collections import deque, namedtuple
 from itertools import permutations
 
-items = [1, 2, 3]
-n = 3
+items = [1, 2, 3, 4]
+n = 2
 
 print(list(permutations(items, n)))
 
@@ -48,8 +47,9 @@ def permutations(items, r=None):
         def next_state_with_element(self, element_index):
             new_remaining = self.remaining_items[:element_index] + self.remaining_items[element_index + 1:]
             new_permutation = list(self.permutation)
-            new_permutation.append(self.remaining_items[0])
+            new_permutation.append(self.remaining_items[element_index])
             return State(new_remaining, new_permutation, self.r - 1)
+
 
     state_stack = []
 
@@ -65,7 +65,6 @@ def permutations(items, r=None):
                 state_stack.append(current_state.next_state_without_first_remaining_element())
                 for remaining_idx, _ in enumerate(current_state.remaining_items):
                     state_stack.append(current_state.next_state_with_element(remaining_idx))
-
 
 
 print(list(permutations(items, n)))
@@ -88,6 +87,44 @@ def all_permutations(items):
         permutation = [value]
         remaining_items = items[:idx] + items[idx + 1:]
         yield from recursive_permutations(remaining_items, permutation)
+
+
+print(list(all_permutations(items)))
+
+
+def all_permutations(items):
+    if not items:
+        yield items
+
+    class State():
+        def __init__(self, remaining_items, permutation):
+            self.permutation = permutation
+            self.remaining_items = remaining_items
+
+        def next_state_without_first_remaining_element(self):
+            return State(self.remaining_items[1:], self.permutation)
+
+        def next_state_with_element(self, element_index):
+            new_remaining = self.remaining_items[:element_index] + self.remaining_items[element_index + 1:]
+            new_permutation = list(self.permutation)
+            new_permutation.append(self.remaining_items[element_index])
+            return State(new_remaining, new_permutation)
+        def __repr__(self):
+            return 'State(%r, %r)' % (self.remaining_items, self.permutation)
+
+
+    state_stack = []
+
+    for idx, value in enumerate(items):
+        permutation = [value]
+        remaining_items = items[:idx] + items[idx + 1:]
+        state_stack.append(State(remaining_items, permutation))
+        while state_stack:
+            current_state = state_stack.pop()
+            if current_state.remaining_items:
+                for remaining_idx in reversed(range(0,len(current_state.remaining_items))):
+                    state_stack.append(current_state.next_state_with_element(remaining_idx))
+            yield current_state.permutation
 
 
 print(list(all_permutations(items)))
