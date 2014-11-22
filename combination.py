@@ -54,7 +54,7 @@ def all_combinations(items):
 
     def recursive_combination(begin, combination):
         if begin <= len(items):
-            yield list(combination)
+            yield combination
             for idx in range(begin, len(items)):
                 next_combination = list(combination)
                 next_combination.append(items[idx])
