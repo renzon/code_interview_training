@@ -2,7 +2,7 @@ from collections import deque, namedtuple
 from itertools import permutations
 
 items = [1, 2, 3]
-n = 2
+n = 3
 
 print(list(permutations(items, n)))
 
@@ -36,7 +36,20 @@ def permutations(items, r=None):
     if r > len(items) or r == 0:
         yield items
 
-    State = namedtuple('State', ('remaining_items', 'permutation', 'r'))
+    class State():
+        def __init__(self, remaining_items, permutation, r):
+            self.r = r
+            self.permutation = permutation
+            self.remaining_items = remaining_items
+
+        def next_state_without_first_remaining_element(self):
+            return State(self.remaining_items[1:], self.permutation, self.r)
+
+        def next_state_with_element(self, element_index):
+            new_remaining = self.remaining_items[:element_index] + self.remaining_items[element_index + 1:]
+            new_permutation = list(self.permutation)
+            new_permutation.append(self.remaining_items[0])
+            return State(new_remaining, new_permutation, self.r - 1)
 
     state_stack = []
 
@@ -49,15 +62,10 @@ def permutations(items, r=None):
             if current_state.r == 0:
                 yield current_state.permutation
             elif current_state.r > 0 and current_state.remaining_items:
-                next_remaining = current_state.remaining_items[1:]
-                next_permutation = list(current_state.permutation)
-                next_r = current_state.r
-                state_stack.append(State(next_remaining, next_permutation, next_r))
-                next_permutation = current_state.permutation
-                next_permutation.append(current_state.remaining_items[0])
-                next_remaining = current_state.remaining_items[1:]
-                next_r = current_state.r-1
-                state_stack.append(State(next_remaining, next_permutation, next_r))
+                state_stack.append(current_state.next_state_without_first_remaining_element())
+                for remaining_idx, _ in enumerate(current_state.remaining_items):
+                    state_stack.append(current_state.next_state_with_element(remaining_idx))
+
 
 
 print(list(permutations(items, n)))
