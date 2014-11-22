@@ -66,6 +66,10 @@ class ListProxy():
         self._lst = lst
 
     def __getitem__(self, index):
+        if isinstance(index, slice):
+            slc = index
+            start = 0 if slc.start is None else slc.start
+            return ListProxy(self, start, slc.stop)
         return self._lst[index + self._start]
 
     def bisect(self):
@@ -90,6 +94,28 @@ def merg_rec(items):
         yield from iter(items)
     else:
         left_middle, right_middle = items.bisect()
+        yield from heapq.merge(merg_rec(left_middle), merg_rec(right_middle))
+
+
+def merge_sort(items):
+    list_proxy = ListProxy(items)
+    return [i for i in merg_rec(list_proxy)]
+
+
+print('############ Merge Sort ###################')
+
+print(merge_sort([]))
+print(merge_sort([1]))
+print(merge_sort([2, 1]))
+print(merge_sort(numbers))
+
+
+def merg_rec(items):
+    if len(items) < 2:
+        yield from iter(items)
+    else:
+        middle = len(items) // 2
+        left_middle, right_middle = items[:middle], items[middle:]
         yield from heapq.merge(merg_rec(left_middle), merg_rec(right_middle))
 
 
