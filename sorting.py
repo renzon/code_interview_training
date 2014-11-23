@@ -68,19 +68,21 @@ class ListProxy():
     def __getitem__(self, index):
         if isinstance(index, slice):
             slc = index
-            start = 0 if slc.start is None else slc.start
-            return ListProxy(self, start, slc.stop)
+            start = self._start if slc.start is None else slc.start+self._start
+            stop = self._stop if slc.stop is None else start+slc.stop
+            return ListProxy(self._lst, start, stop)
         return self._lst[index + self._start]
 
     def bisect(self):
         middle = len(self) // 2
-        return ListProxy(self, 0, middle), ListProxy(self, middle)
+        return ListProxy(self._lst, self._start, self._start + middle), ListProxy(self._lst, self._start + middle,
+                                                                                  self._stop)
 
     def __len__(self):
         return max(0, self._stop - self._start)
 
     def __iter__(self):
-        return (self[i] for i in range(len(self)))
+        return (self._lst[i] for i in range(self._start, self._stop))
 
     def __next__(self):
         return next(self)
