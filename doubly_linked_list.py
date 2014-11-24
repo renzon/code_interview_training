@@ -7,6 +7,11 @@ class Node():
         self.child = None
         self.value = value
 
+    def clone_value_and_child(self):
+        node = Node(self.value)
+        node.child = self.child
+        return node
+
 
     def append(self, node):
         node.next = self.next
@@ -54,6 +59,26 @@ class DoubleLinkedList():
             linked_list.tail = node.child
             yield from linked_list.flatenning()
 
+    def unflatenning(self):
+        unflated_list = DoubleLinkedList()
+        it = iter(self)
+        try:
+            current_node = next(it)
+            cloned_node = Node(current_node.value)
+            unflated_list.append(cloned_node)
+            while True:
+                next_node = next(it)
+                next_clone = Node(next_node.value)
+                if current_node.child is None:
+                    cloned_node.append(next_clone)
+                else:
+                    cloned_node.child = next_clone
+                current_node = next_node
+                cloned_node = next_clone
+        except StopIteration:
+            pass
+        return unflated_list
+
     def items_flatenning(self):
         return (node.value for node in self.flatenning())
 
@@ -80,3 +105,12 @@ doubly_linked_list = DoubleLinkedList(r)
 
 print(list(n.value for n in reversed(doubly_linked_list)))
 print(list(doubly_linked_list.items_flatenning()))
+
+flatenned_list = DoubleLinkedList()
+
+for node in doubly_linked_list.flatenning():
+    flatenned_list.append(node.clone_value_and_child())
+
+print(list(node.value for node in flatenned_list))
+print(list(node.value for node in flatenned_list.unflatenning().flatenning()))
+print(list(node.value for node in flatenned_list.unflatenning()))
