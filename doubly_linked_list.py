@@ -38,6 +38,14 @@ class DoubleLinkedList():
                 yield current_node
                 current_node = current_node.next
 
+    def __reversed__(self):
+        if self.tail is not None:
+            current_node = self.tail
+            while current_node is not None:
+                yield current_node
+                current_node = current_node.previous
+
+
     def flatenning(self):
         for node in iter(self):
             yield node
@@ -70,4 +78,5 @@ node_0.child.child.append(Node(6))
 r[1].child = Node(7)
 doubly_linked_list = DoubleLinkedList(r)
 
+print(list(n.value for n in reversed(doubly_linked_list)))
 print(list(doubly_linked_list.items_flatenning()))
