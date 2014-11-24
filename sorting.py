@@ -1,62 +1,6 @@
 import heapq
-
-numbers = [1, 6, 2, 3, 4, 5]
-
-
-def selection_sort(items):
-    items = items[:]
-    for i in range(len(items) - 1):
-        j, min_element = min(enumerate(items[i:], i), key=lambda e: e[1])
-        items[i], items[j] = min_element, items[i]
-    return items
-
-
-print(selection_sort([]))
-print(selection_sort([1]))
-print(selection_sort(numbers))
-
-
-def insertion_sort(items):
-    if not items:
-        return items
-    items = items[:]
-    sorted_list = [items.pop()]
-
-    def insert(e):
-        for i, value in enumerate(sorted_list):
-            if e < value:
-                sorted_list.insert(i, e)
-                return
-        sorted_list.append(e)
-
-    while items:
-        insert(items.pop())
-    return sorted_list
-
-
-print(insertion_sort([]))
-print(insertion_sort([1]))
-print(insertion_sort(numbers))
-
-
-def quick_sort(items):
-    if len(items) < 2:
-        return items
-    pivot_index = len(items) // 2
-    pivot = items[pivot_index]
-    left = []
-    right = []
-    for value in items[:pivot_index] + items[pivot_index + 1:]:
-        if value < pivot:
-            left.append(value)
-        else:
-            right.append(value)
-    return quick_sort(left) + [pivot] + quick_sort(right)
-
-
-print(quick_sort([]))
-print(quick_sort([1]))
-print(quick_sort(numbers))
+from itertools import chain
+from linked_list import _LinkedList, Node
 
 
 class ListProxy():
@@ -68,10 +12,13 @@ class ListProxy():
     def __getitem__(self, index):
         if isinstance(index, slice):
             slc = index
-            start = self._start if slc.start is None else slc.start+self._start
-            stop = self._stop if slc.stop is None else start+slc.stop
+            start = self._start if slc.start is None else slc.start + self._start
+            stop = self._stop if slc.stop is None else start + slc.stop
             return ListProxy(self._lst, start, stop)
         return self._lst[index + self._start]
+
+    def __setitem__(self, key, value):
+        self._lst[self._start + key] = value
 
     def bisect(self):
         middle = len(self) // 2
@@ -89,6 +36,83 @@ class ListProxy():
 
     def __repr__(self):
         return 'ListProxy(%r, %r, %r)' % (self._lst, self._start, self._stop)
+
+
+numbers = [1, 6, 2, 3, 4, 5]
+
+
+def selection_sort(items):
+    items = ListProxy(items)
+    for i in range(len(items) - 1):
+        j, min_element = min(enumerate(items[i:], i), key=lambda e: e[1])
+        items[i], items[j] = min_element, items[i]
+    return iter(items)
+
+
+print('############# Selection Sort ##############')
+print(list(selection_sort([])))
+print(list(selection_sort([1])))
+print(list(selection_sort(numbers)))
+
+
+def insertion_sort(items):
+    if not items:
+        return items
+    items = items[:]
+    sorted_linked_list = _LinkedList()
+    sorted_linked_list.insert(0, Node(items.pop()))
+
+    def insert(e):
+        ahead_iter = iter(sorted_linked_list)
+        first_item = next(ahead_iter)
+        if e < first_item.value:
+            sorted_linked_list.insert(0, Node(e))
+        else:
+            current_iter = iter(sorted_linked_list)
+            for previous_node, node in zip(current_iter, ahead_iter):
+                if e < node.value:
+                    previous_node.next = Node(e, node)
+                    return
+            last_node = next(current_iter)
+            last_node.next = Node(e)
+
+    while items:
+        insert(items.pop())
+    return (node.value for node in sorted_linked_list)
+
+
+print('############# Insertion Sort ##############')
+print(list(insertion_sort([])))
+print(list(insertion_sort([1])))
+
+print(list(insertion_sort(numbers)))
+
+
+def quick_sort(items):
+    if len(items) < 2:
+        return iter(items)
+    items = ListProxy(items)
+
+    def _quick_sort(inner_items):
+        pivot_index = len(inner_items) // 2
+        pivot = inner_items[pivot_index]
+        left = []
+        right = []
+        for value in chain(inner_items[:pivot_index], inner_items[pivot_index + 1:]):
+            if value < pivot:
+                left.append(value)
+            else:
+                right.append(value)
+        return chain(quick_sort(left), [pivot], quick_sort(right))
+
+    return _quick_sort(items)
+
+
+print('############# Quick ##############')
+print(list(quick_sort([])))
+print(list(quick_sort([1])))
+
+print(list(quick_sort(numbers)))
 
 
 def merg_rec(items):
