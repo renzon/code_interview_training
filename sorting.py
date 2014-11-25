@@ -135,10 +135,19 @@ print(merge_sort([1]))
 print(merge_sort([2, 1]))
 print(merge_sort(numbers))
 
+leaves_on_memory = 0
+
+def print_memory():
+    print('Leaves: %s' % leaves_on_memory)
 
 def merg_rec(items):
     if len(items) < 2:
+        global leaves_on_memory
+        leaves_on_memory += 1
+        print_memory()
         yield from iter(items)
+        leaves_on_memory -= 1
+        print_memory()
     else:
         middle = len(items) // 2
         left_middle, right_middle = items[:middle], items[middle:]
