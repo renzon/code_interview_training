@@ -38,9 +38,6 @@ class ListProxy():
         return 'ListProxy(%r, %r, %r)' % (self._lst, self._start, self._stop)
 
 
-numbers = [1, 6, 2, 3, 4, 5]
-
-
 def selection_sort(items):
     items = ListProxy(items)
     for i in range(len(items) - 1):
@@ -52,7 +49,7 @@ def selection_sort(items):
 print('############# Selection Sort ##############')
 print(list(selection_sort([])))
 print(list(selection_sort([1])))
-print(list(selection_sort(numbers)))
+print(list(selection_sort([1, 6, 2, 3, 4, 5])))
 
 
 def insertion_sort(items):
@@ -69,11 +66,12 @@ def insertion_sort(items):
             sorted_linked_list.insert(0, Node(e))
         else:
             current_iter = iter(sorted_linked_list)
+            last_node = first_item
             for previous_node, node in zip(current_iter, ahead_iter):
                 if e < node.value:
                     previous_node.next = Node(e, node)
                     return
-            last_node = next(current_iter)
+                last_node = node
             last_node.next = Node(e)
 
     while items:
@@ -85,7 +83,7 @@ print('############# Insertion Sort ##############')
 print(list(insertion_sort([])))
 print(list(insertion_sort([1])))
 
-print(list(insertion_sort(numbers)))
+print(list(insertion_sort([1, 6, 2, 3, 4, 5])))
 
 
 def quick_sort(items):
@@ -112,7 +110,7 @@ print('############# Quick ##############')
 print(list(quick_sort([])))
 print(list(quick_sort([1])))
 
-print(list(quick_sort(numbers)))
+print(list(quick_sort([1, 6, 2, 3, 4, 5])))
 
 
 def merg_rec(items):
@@ -133,21 +131,25 @@ print('############ Merge Sort ###################')
 print(merge_sort([]))
 print(merge_sort([1]))
 print(merge_sort([2, 1]))
-print(merge_sort(numbers))
+print(merge_sort([1, 6, 2, 3, 4, 5]))
 
 leaves_on_memory = 0
 
+
 def print_memory():
     print('Leaves: %s' % leaves_on_memory)
+
 
 def merg_rec(items):
     if len(items) < 2:
         global leaves_on_memory
         leaves_on_memory += 1
         print_memory()
+        print(items)
         yield from iter(items)
         leaves_on_memory -= 1
         print_memory()
+        print(items)
     else:
         middle = len(items) // 2
         left_middle, right_middle = items[:middle], items[middle:]
@@ -164,4 +166,4 @@ print('############ Merge Sort ###################')
 print(merge_sort([]))
 print(merge_sort([1]))
 print(merge_sort([2, 1]))
-print(merge_sort(numbers))
+print(merge_sort([1, 6, 2, 3, 4, 5, 7, 8]))
