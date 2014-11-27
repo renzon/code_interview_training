@@ -30,8 +30,15 @@ class Node():
         return 'Node(%r)' % self.value
 
     def look_up(self, element):
+        if element == self.value:
+            return True
         if element < self.value:
-            return False
+            if self.left is not None:
+                return self.left.look_up(element)
+        if element > self.value:
+            if self.right is not None:
+                return self.right.look_up(element)
+        return False
 
 
 def height(tree):
@@ -81,3 +88,14 @@ def breadth_first_traversal(tree):
 
 print('############### Breadth First Traversal (')
 breadth_first_traversal(root)  # Expected 1, 0 , 4 , 3, 5, 2
+
+print('########### Binary Search')
+
+print(root.look_up(0))  # Expected True
+print(root.look_up(1))  # Expected True
+print(root.look_up(2))  # Expected True
+print(root.look_up(3))  # Expected True
+print(root.look_up(4))  # Expected True
+print(root.look_up(5))  # Expected True
+print(root.look_up(6))  # Expected False
+print(root.look_up(-1))  # Expected False
