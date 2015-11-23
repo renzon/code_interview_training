@@ -85,5 +85,9 @@ if __name__ == '__main__':
             self.assertEqual(2.0, evaluate('1+1.0'))
             self.assertEqual(14.0, evaluate('1.0+1+12'))
 
+        def test_valid_subtraction(self):
+            self.assertEqual(0, evaluate('1-1'))
+            self.assertEqual(-8, evaluate('1-9'))
+
 
     unittest.main()
