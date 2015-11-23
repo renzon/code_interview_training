@@ -81,5 +81,9 @@ if __name__ == '__main__':
             self.assertRaises(InvalidExpression, evaluate, '1++')
             self.assertRaises(InvalidExpression, evaluate, '1++1')
 
+        def test_valid_float_sum(self):
+            self.assertEqual(2.0, evaluate('1+1.0'))
+            self.assertEqual(14.0, evaluate('1.0+1+12'))
+
 
     unittest.main()
