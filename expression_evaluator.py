@@ -1,8 +1,23 @@
-OPERATIONS = set('+-')
+import operator
+
+OPERATIONS = set('+-*')
+OPERATIONS_MAP = {'+': operator.add, '-': operator.sub, '*': operator.mul}
 
 
 class InvalidExpression(Exception):
     pass
+
+
+def calculate(tokens):
+    stack=list(reversed(tokens))
+
+    while len(stack)>1:
+        first_number=stack.pop()
+        operation=stack.pop()
+        second_number=stack.pop()
+        partial_result=OPERATIONS_MAP[operation](first_number,second_number)
+        stack.append(partial_result)
+    return stack[0]
 
 
 def evaluate(expression):
@@ -17,14 +32,16 @@ def evaluate(expression):
 
             previous_char_is_sign = True
             tokens.append(evaluate_number(current_token))
+            tokens.append(char)
             current_token = []
         else:
             previous_char_is_sign = False
-        current_token.append(char)
+            current_token.append(char)
 
     tokens.append(evaluate_number(current_token))
+    
 
-    return sum(tokens, 0)
+    return calculate(tokens)
 
 
 def evaluate_number(expression):
@@ -91,6 +108,11 @@ if __name__ == '__main__':
         def test_valid_subtraction(self):
             self.assertEqual(0, evaluate('1-1'))
             self.assertEqual(-8, evaluate('1-9'))
+
+        def test_valid_multiplication(self):
+            self.assertEqual(1, evaluate('1*1'))
+            self.assertEqual(0, evaluate('0*0'))
+            self.assertEqual(625, evaluate('25*25'))
 
 
     unittest.main()
