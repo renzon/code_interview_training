@@ -1,7 +1,7 @@
 import operator
 
-OPERATIONS = set('+-*')
-OPERATIONS_MAP = {'+': operator.add, '-': operator.sub, '*': operator.mul}
+OPERATIONS = set('+-*/')
+OPERATIONS_MAP = {'+': operator.add, '-': operator.sub, '*': operator.mul,'/':operator.truediv}
 
 
 class InvalidExpression(Exception):
@@ -113,6 +113,11 @@ if __name__ == '__main__':
             self.assertEqual(1, evaluate('1*1'))
             self.assertEqual(0, evaluate('0*0'))
             self.assertEqual(625, evaluate('25*25'))
+
+        def test_valid_division(self):
+            self.assertEqual(1, evaluate('1/1'))
+            self.assertEqual(2, evaluate('4/2'))
+            self.assertEqual(2.5, evaluate('5/2'))
 
 
     unittest.main()
