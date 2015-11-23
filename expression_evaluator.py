@@ -68,6 +68,11 @@ if __name__ == '__main__':
 
         def test_valid_sum(self):
             self.assertEqual(2, evaluate('1+1'))
+            self.assertEqual(14, evaluate('1+1+12'))
+
+        def test_expression_with_2_sum_signs(self):
+            self.assertRaises(InvalidExpression, evaluate, '1++')
+            self.assertRaises(InvalidExpression, evaluate, '1++1')
 
 
     unittest.main()
