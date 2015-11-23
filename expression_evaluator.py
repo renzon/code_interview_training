@@ -4,12 +4,16 @@ class InvalidExpression(Exception):
 
 def evaluate(expression):
     dot_found = False
+    
     for char in expression:
         if char == '.':
             if dot_found:
                 raise InvalidExpression('%s is not an valid float' % expression)
             else:
                 dot_found = True
+
+    if dot_found and expression[-1] == '.':
+        raise InvalidExpression('%s is not an valid float' % expression)
 
     if dot_found:
         return float(expression)
@@ -37,8 +41,12 @@ if __name__ == '__main__':
             self.assertEqual(1234.4, evaluate('1234.4'))
             self.assertEqual(1234567890.0987654321, evaluate('1234567890.0987654321'))
 
+        def test_invalid_floats_with_dot_but_no_decimal(self):
+            self.assertRaises(InvalidExpression, evaluate, '1.')
+            self.assertRaises(InvalidExpression, evaluate, '12323.')
+
         def test_invalid_floats_with_2_dots(self):
-            self.assertRaises(InvalidExpression, evaluate, '1..
+            self.assertRaises(InvalidExpression, evaluate, '1..')
             self.assertRaises(InvalidExpression, evaluate, '1.9.')
             self.assertRaises(InvalidExpression, evaluate, '1.9.9')
 
