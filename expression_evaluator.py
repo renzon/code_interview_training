@@ -3,8 +3,24 @@ class InvalidExpression(Exception):
 
 
 def evaluate(expression):
+    tokens = []
+    current_token = []
+
+    for char in expression:
+        if char == '+':
+            tokens.append(evaluate_number(current_token))
+            current_token = []
+        current_token.append(char)
+
+    tokens.append(evaluate_number(current_token))
+
+    return sum(tokens, 0)
+
+
+def evaluate_number(expression):
     dot_found = False
-    
+    expression = ''.join(expression)
+
     for char in expression:
         if char == '.':
             if dot_found:
@@ -26,7 +42,7 @@ if __name__ == '__main__':
     from unittest.case import TestCase
 
 
-    class EpressionValidationTeest(TestCase):
+    class EvaluationTests(TestCase):
         def test_valid_integers(self):
             self.assertEqual(1, evaluate('1'))
             self.assertEqual(12, evaluate('12'))
@@ -49,6 +65,9 @@ if __name__ == '__main__':
             self.assertRaises(InvalidExpression, evaluate, '1..')
             self.assertRaises(InvalidExpression, evaluate, '1.9.')
             self.assertRaises(InvalidExpression, evaluate, '1.9.9')
+
+        def test_valid_sum(self):
+            self.assertEqual(2, evaluate('1+1'))
 
 
     unittest.main()
