@@ -37,6 +37,7 @@ def evaluate(expression):
     tokens = []
     current_token = []
     previous_char_is_sign = False
+    parenthesis_count = 0
 
     for char in expression:
         if char in OPERATIONS_MAP.keys():
@@ -51,8 +52,10 @@ def evaluate(expression):
         else:
             previous_char_is_sign = False
             if char == '(':
+                parenthesis_count += 1
                 tokens.append(char)
             elif char == ')':
+                parenthesis_count -= 1
                 if current_token:
                     tokens.append(evaluate_number(current_token))
                 tokens.append(char)
@@ -60,6 +63,8 @@ def evaluate(expression):
             else:
                 current_token.append(char)
 
+    if parenthesis_count!=0:
+        raise InvalidExpression('Parenthesis unbalanced')
     if current_token:
         tokens.append(evaluate_number(current_token))
 
@@ -149,6 +154,9 @@ if __name__ == '__main__':
 
         def test_multilevel_parenthesis(self):
             self.assertEqual(34, evaluate('(31+1)+(2*2/((4-1)-1))'))
+
+        def test_unbalanced_parenthesis(self):
+            self.assertRaises(InvalidExpression, evaluate, '(31+1)+(2*2/((4-1)-1)')
 
 
     unittest.main()
