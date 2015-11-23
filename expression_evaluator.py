@@ -34,11 +34,16 @@ def calculate(tokens):
 
 
 def evaluate(expression):
+    tokens = tokenizer(expression)
+
+    return calculate(tokens)
+
+
+def tokenizer(expression):
     tokens = []
     current_token = []
     previous_char_is_sign = False
     parenthesis_count = 0
-
     for char in expression:
         if char in OPERATIONS_MAP.keys():
             if previous_char_is_sign:
@@ -62,13 +67,11 @@ def evaluate(expression):
                 current_token = []
             else:
                 current_token.append(char)
-
-    if parenthesis_count!=0:
+    if parenthesis_count != 0:
         raise InvalidExpression('Parenthesis unbalanced')
     if current_token:
         tokens.append(evaluate_number(current_token))
-
-    return calculate(tokens)
+    return tokens
 
 
 def evaluate_number(expression):
@@ -158,5 +161,8 @@ if __name__ == '__main__':
         def test_unbalanced_parenthesis(self):
             self.assertRaises(InvalidExpression, evaluate, '(31+1)+(2*2/((4-1)-1)')
 
+
+    for token in tokenizer('(31+1)+(2*2/((4-1)-1))'):
+        print('Token: %s' % token, 'Type: %s' % type(token))
 
     unittest.main()
