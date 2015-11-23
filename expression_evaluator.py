@@ -134,8 +134,11 @@ if __name__ == '__main__':
             self.assertEqual(2, evaluate('4/2'))
             self.assertEqual(2.5, evaluate('5/2'))
 
-        def test_parentesis(self):
+        def test_simple_parentesis(self):
             self.assertEqual(2, evaluate('(1+1)'))
+
+        def test_multiple_parentesis(self):
+            self.assertEqual(6, evaluate('(1+1)+(2*2)'))
 
 
     unittest.main()
