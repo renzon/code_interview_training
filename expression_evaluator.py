@@ -11,33 +11,25 @@ def calculate(tokens):
     tokens_reversed = list(reversed(tokens))
     stack = []
 
-    def calculate_operation():
-        second_number = stack.pop()
-        operation = stack.pop()
-        first_number = stack.pop()
-        result = OPERATIONS_MAP[operation](first_number, second_number)
-        stack.append(result)
+    def simplify_tail_operations():
+        while len(stack) > 1 and stack[-2] != '(':
+            second_number = stack.pop()
+            operation = stack.pop()
+            first_number = stack.pop()
+            result = OPERATIONS_MAP[operation](first_number, second_number)
+            stack.append(result)
 
     while tokens_reversed:
         token = tokens_reversed.pop()
-        if token in OPERATIONS_MAP.keys():
-            operation = token
-            stack.append(operation)
-            next_token = tokens_reversed[-1]
-            if next_token == '(':
-                continue
-
-            stack.append(tokens_reversed.pop())
-            calculate_operation()
-        elif token == ')':
+        if token == ')':
+            simplify_tail_operations()
             number = stack.pop()
             stack.pop()  # removing respective "("
             stack.append(number)
         else:
             stack.append(token)
 
-    while len(stack) > 1:
-        calculate_operation()
+    simplify_tail_operations()
     return stack[0]
 
 
@@ -61,7 +53,8 @@ def evaluate(expression):
             if char == '(':
                 tokens.append(char)
             elif char == ')':
-                tokens.append(evaluate_number(current_token))
+                if current_token:
+                    tokens.append(evaluate_number(current_token))
                 tokens.append(char)
                 current_token = []
             else:
@@ -148,11 +141,14 @@ if __name__ == '__main__':
             self.assertEqual(2, evaluate('4/2'))
             self.assertEqual(2.5, evaluate('5/2'))
 
-        def test_simple_parentesis(self):
+        def test_simple_parenthesis(self):
             self.assertEqual(2, evaluate('(1+1)'))
 
-        def test_multiple_parentesis(self):
+        def test_multiple_parenthesis(self):
             self.assertEqual(6, evaluate('(1+1)+(2*2)'))
+
+        def test_multilevel_parenthesis(self):
+            self.assertEqual(34, evaluate('(31+1)+(2*2/((4-1)-1))'))
 
 
     unittest.main()
