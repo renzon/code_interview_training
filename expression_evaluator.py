@@ -5,11 +5,18 @@ class InvalidExpression(Exception):
 def evaluate(expression):
     tokens = []
     current_token = []
+    previous_char_is_sign = False
 
     for char in expression:
         if char == '+':
+            if previous_char_is_sign:
+                raise InvalidExpression('Sign can not be followed by another sign')
+
+            previous_char_is_sign = True
             tokens.append(evaluate_number(current_token))
             current_token = []
+        else:
+            previous_char_is_sign = False
         current_token.append(char)
 
     tokens.append(evaluate_number(current_token))
