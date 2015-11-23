@@ -13,16 +13,19 @@ def calculate(tokens):
     while tokens_reversed:
         token = tokens_reversed.pop()
         if token in OPERATIONS_MAP.keys():
-            operation=token
-            first_number=stack.pop()
-            second_number=tokens_reversed.pop()
-            result=OPERATIONS_MAP[operation](first_number,second_number)
+            operation = token
+            first_number = stack.pop()
+            second_number = tokens_reversed.pop()
+            result = OPERATIONS_MAP[operation](first_number, second_number)
             stack.append(result)
+        elif token == ')':
+            number = stack.pop()
+            stack.pop()  # removing respective "("
+            stack.append(number)
         else:
             stack.append(token)
 
     return stack[0]
-
 
 
 def evaluate(expression):
