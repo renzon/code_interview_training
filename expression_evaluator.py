@@ -10,14 +10,25 @@ class InvalidExpression(Exception):
 def calculate(tokens):
     tokens_reversed = list(reversed(tokens))
     stack = []
+
+    def calculate_operation():
+        second_number = stack.pop()
+        operation = stack.pop()
+        first_number = stack.pop()
+        result = OPERATIONS_MAP[operation](first_number, second_number)
+        stack.append(result)
+
     while tokens_reversed:
         token = tokens_reversed.pop()
         if token in OPERATIONS_MAP.keys():
             operation = token
-            first_number = stack.pop()
-            second_number = tokens_reversed.pop()
-            result = OPERATIONS_MAP[operation](first_number, second_number)
-            stack.append(result)
+            stack.append(operation)
+            next_token = tokens_reversed[-1]
+            if next_token == '(':
+                continue
+
+            stack.append(tokens_reversed.pop())
+            calculate_operation()
         elif token == ')':
             number = stack.pop()
             stack.pop()  # removing respective "("
@@ -25,6 +36,8 @@ def calculate(tokens):
         else:
             stack.append(token)
 
+    while len(stack) > 1:
+        calculate_operation()
     return stack[0]
 
 
@@ -39,7 +52,8 @@ def evaluate(expression):
                 raise InvalidExpression('Sign can not be followed by another sign')
 
             previous_char_is_sign = True
-            tokens.append(evaluate_number(current_token))
+            if current_token:
+                tokens.append(evaluate_number(current_token))
             tokens.append(char)
             current_token = []
         else:
