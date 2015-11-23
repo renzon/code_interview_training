@@ -1,3 +1,6 @@
+OPERATIONS = set('+-')
+
+
 class InvalidExpression(Exception):
     pass
 
@@ -8,7 +11,7 @@ def evaluate(expression):
     previous_char_is_sign = False
 
     for char in expression:
-        if char == '+':
+        if char in OPERATIONS:
             if previous_char_is_sign:
                 raise InvalidExpression('Sign can not be followed by another sign')
 
