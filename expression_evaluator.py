@@ -1,7 +1,6 @@
 import operator
 
-OPERATIONS = set('+-*/')
-OPERATIONS_MAP = {'+': operator.add, '-': operator.sub, '*': operator.mul,'/':operator.truediv}
+OPERATIONS_MAP = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
 
 
 class InvalidExpression(Exception):
@@ -9,15 +8,21 @@ class InvalidExpression(Exception):
 
 
 def calculate(tokens):
-    stack=list(reversed(tokens))
+    tokens_reversed = list(reversed(tokens))
+    stack = []
+    while tokens_reversed:
+        token = tokens_reversed.pop()
+        if token in OPERATIONS_MAP.keys():
+            operation=token
+            first_number=stack.pop()
+            second_number=tokens_reversed.pop()
+            result=OPERATIONS_MAP[operation](first_number,second_number)
+            stack.append(result)
+        else:
+            stack.append(token)
 
-    while len(stack)>1:
-        first_number=stack.pop()
-        operation=stack.pop()
-        second_number=stack.pop()
-        partial_result=OPERATIONS_MAP[operation](first_number,second_number)
-        stack.append(partial_result)
     return stack[0]
+
 
 
 def evaluate(expression):
@@ -26,7 +31,7 @@ def evaluate(expression):
     previous_char_is_sign = False
 
     for char in expression:
-        if char in OPERATIONS:
+        if char in OPERATIONS_MAP.keys():
             if previous_char_is_sign:
                 raise InvalidExpression('Sign can not be followed by another sign')
 
@@ -36,10 +41,17 @@ def evaluate(expression):
             current_token = []
         else:
             previous_char_is_sign = False
-            current_token.append(char)
+            if char == '(':
+                tokens.append(char)
+            elif char == ')':
+                tokens.append(evaluate_number(current_token))
+                tokens.append(char)
+                current_token = []
+            else:
+                current_token.append(char)
 
-    tokens.append(evaluate_number(current_token))
-    
+    if current_token:
+        tokens.append(evaluate_number(current_token))
 
     return calculate(tokens)
 
@@ -118,6 +130,9 @@ if __name__ == '__main__':
             self.assertEqual(1, evaluate('1/1'))
             self.assertEqual(2, evaluate('4/2'))
             self.assertEqual(2.5, evaluate('5/2'))
+
+        def test_parentesis(self):
+            self.assertEqual(2, evaluate('(1+1)'))
 
 
     unittest.main()
