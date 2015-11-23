@@ -26,5 +26,10 @@ if __name__ == '__main__':
             self.assertEqual(1234.4, evaluate('1234.4'))
             self.assertEqual(1234567890.0987654321, evaluate('1234567890.0987654321'))
 
+        def test_invalid_floats(self):
+            self.assertRaises(InvalidExpression, evaluate,'1.')
+            self.assertRaises(InvalidExpression, evaluate,'1.9.')
+            self.assertRaises(InvalidExpression, evaluate,'1.9.9')
+
 
     unittest.main()
