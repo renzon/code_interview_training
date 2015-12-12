@@ -2,18 +2,25 @@
 from unittest.case import TestCase
 
 
-def max_rec(seq, index, max_value):
-    if index == len(seq):
+def max_rec(iterable, max_value):
+    try:
+        next_value = next(iterable)
+    except StopIteration:
         return max_value
-    elif max_value < seq[index]:
-        max_value = seq[index]
-    return max_rec(seq, index + 1, max_value)
+    else:
+        if max_value < next_value:
+            max_value = next_value
+        return max_rec(iterable, max_value)
 
 
 def max(seq):
-    if len(seq) == 0:
-        raise Exception('Sequence must not be empyt')
-    return max_rec(seq, 1, seq[0])
+    iterable = iter(seq)
+    try:
+        max_value = next(iterable)
+    except StopIteration:
+        raise Exception('It is not possible having max from empty sequence')
+    else:
+        return max_rec(iterable, max_value)
 
 
 class MaxTest(TestCase):
@@ -25,3 +32,9 @@ class MaxTest(TestCase):
 
     def test_three_elements(self):
         self.assertEqual(3, max([1, 3, 2]))
+
+    def test_range(self):
+        self.assertEqual(98, max(range(99)))
+
+    def test_generator_expression(self):
+        self.assertEqual(98, max(i for i in range(99)))
