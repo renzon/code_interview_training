@@ -1,7 +1,11 @@
 from unittest.case import TestCase
 
 
-def _find_element_index(sorted_sequence, start, end, element):
+def _binary_search(sorted_sequence, start, end, element):
+    '''
+    Good Case: last element is on of the same. In this case, we only need one bynary search, so it is log(n)
+    Worst Case: Sum is not there and minor in
+    '''
     if start >= end:
         return start
     else:
@@ -10,10 +14,10 @@ def _find_element_index(sorted_sequence, start, end, element):
         if mid_element == element:
             return mid
         elif mid_element < element:
-            return _find_element_index(sorted_sequence, mid + 1, end, element)
+            return _binary_search(sorted_sequence, mid + 1, end, element)
 
         else:
-            return _find_element_index(sorted_sequence, start, mid_element - 1, element)
+            return _binary_search(sorted_sequence, start, mid_element - 1, element)
 
 
 def _element_sum_rec(sorted_sequence, start, end, sum):
@@ -21,7 +25,7 @@ def _element_sum_rec(sorted_sequence, start, end, sum):
         raise ElementsNotFound()
     bigger_value = sorted_sequence[end]
     other_element = sum - bigger_value
-    other_element_index = _find_element_index(sorted_sequence, start, end, other_element)
+    other_element_index = _binary_search(sorted_sequence, start, end, other_element)
     minor_element = sorted_sequence[other_element_index]
     if minor_element == other_element:
         return minor_element, bigger_value
