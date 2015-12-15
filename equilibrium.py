@@ -5,15 +5,15 @@
 def solution(A):
     # write your code in Python 2.7
     sum_left = 0  # start
-    sum_right = sum(e for i, e in enumerate(A) if i > 0)
+    previous = 0
+    sum_right = sum(A)
 
-    for i in xrange(0, len(A)):
+    for i, current in enumerate(A):
+        sum_left += previous
+        sum_right -= current
         if sum_left == sum_right:
             return i
-        else:
-            sum_left += A[i]
-            if i < len(A)-1:
-                sum_right -= A[i+1]
+        previous = current
 
     return -1
 
@@ -23,8 +23,8 @@ def solution(A):
 
 print(solution([]))
 print(solution([1]))
-print(solution([1,1]))
-print(solution([1,0]))
+print(solution([1, 1]))
+print(solution([1, 0]))
 print(solution([3, 1, 3]))
 print(solution([3, 1, 2, 3]))
 print(solution([-1, 3, -4, 5, 1, -6, 2, 1]))
