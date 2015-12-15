@@ -47,9 +47,8 @@ class SumSquaresTests(TestCase):
         self.assertTupleEqual((4,), sum_square(4))
 
     def test_trigger_for_greed_solution(self):
-        '''
+        """
         Greed solution try get nearest minor square from n. 9 in case of 12.
         So the solution would include the elements (9,1,1,1) which is not the shortest solution
-        :return:
-        '''
+        """
         self.assertTupleEqual((4, 4, 4), sum_square(12))
