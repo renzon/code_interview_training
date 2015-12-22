@@ -2,6 +2,10 @@ number_to_alpha = {'1': 'ABC', '2': 'DEF'}
 
 
 def generate_alpha(number_sequence):  # number_sequence = '1'
+    return recursive_version(number_sequence)
+
+
+def recursive_version(number_sequence):
     if not number_sequence:
         return []
     idx = 0
