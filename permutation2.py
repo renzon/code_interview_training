@@ -43,4 +43,4 @@ def perm_deep_first(seq):
 
 
 for p in perm_deep_first('ABC'):
-    print(''.join(p))
+    print(p)
