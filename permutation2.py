@@ -14,7 +14,7 @@ def perm(seq):
     yield from _perm_rec(previous_result, possibilities)
 
 
-def perm_non_rec(seq):
+def perm_breadth_first(seq):
     stack = [(tuple(), tuple(seq))]
 
     while stack:
@@ -28,5 +28,5 @@ def perm_non_rec(seq):
             yield result
 
 
-for p in perm_non_rec('ABC'):
+for p in perm_breadth_first('ABC'):
     print(''.join(p))
