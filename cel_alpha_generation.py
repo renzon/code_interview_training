@@ -1,38 +1,35 @@
-number_to_alpha = {'1': 'ABC', '2': 'DEF'}
+NUMBER_TO_ALPHA = ['WYZ', 'ABC', 'DEF']
 
 
 def generate_alpha(number_sequence):  # number_sequence = '1'
     return recursive_version(number_sequence)
 
 
+def _rec(result, digits, idx=0):
+    if idx == len(digits):
+        yield result
+    else:
+        d = digits[idx]
+        for choice in NUMBER_TO_ALPHA[d]:
+            next_result = result + (choice,)
+            yield from _rec(next_result, digits, idx + 1)
+
+
 def recursive_version(number_sequence):
-    if not number_sequence:
-        return []
-    idx = 0
-    items = ['']
+    digits = tuple(map(lambda i: int(i), number_sequence))
 
-    def _generate_recursive(idx, items):  # idx = 0, items = ['']
-        if idx == len(number_sequence):
-            return items
-        number = number_sequence[idx]  # number = '1'
-        chars = number_to_alpha[number]  # chars = 'ABC'
-        next_items = []  # ['A', 'B', 'C']
-        for item in items:
-            for c in chars:
-                next_items.append(item + c)
-        return _generate_recursive(idx + 1, next_items)
-
-    return _generate_recursive(idx, items)
+    return [''.join(p) for p in _rec(tuple(), digits)]
 
 
 import unittest
 
+
 class GenerateAlpha(unittest.TestCase):
     def test_empty(self):
-        self.assertEqual([], generate_alpha(''))
+        self.assertEqual([''], generate_alpha(''))
 
     def test_items_number(self):
-        self.assertEqual(0, len(generate_alpha('')))
+        self.assertEqual(1, len(generate_alpha('')))
         self.assertEqual(3, len(generate_alpha('1')))
         self.assertEqual(9, len(generate_alpha('12')))
         self.assertEqual(27, len(generate_alpha('121')))
@@ -45,5 +42,3 @@ class GenerateAlpha(unittest.TestCase):
         self.assertEqual(1, len(generate_alpha('1')[0]))
         self.assertEqual(2, len(generate_alpha('12')[0]))
         self.assertEqual(3, len(generate_alpha('121')[0]))
-
-
