@@ -1,7 +1,13 @@
 NUMBER_TO_ALPHA = ['WYZ', 'ABC', 'DEF']
 
 
-def generate_alpha(number_sequence):  # number_sequence = '1'
+def generate_alpha(s):  # number_sequence = '1'
+    n=len(s)
+    if n==0:
+
+
+
+def generate_alpha2(number_sequence):  # number_sequence = '1'
     return recursive_version(number_sequence)
 
 
