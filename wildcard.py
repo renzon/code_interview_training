@@ -1,6 +1,8 @@
 # http://www.programcreek.com/2014/06/leetcode-wildcard-matching-java/
 
 def match(word, pattern):
+    if len(word) != len(pattern):
+        return False
     wilds = set('?*')
     for c, c2 in zip(word, pattern):
         if c2 not in wilds and c != c2:
