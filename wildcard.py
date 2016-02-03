@@ -15,9 +15,10 @@ class Test(unittest.TestCase):
     def test_fail(self):
         self.assertFalse(match('aab', 'aaa'))
 
+    def test_diff_len(self):
+        self.assertFalse(match('aab', 'aabb'))
+
     def test_success(self):
         self.assertTrue(match('aab', 'aab'))
         self.assertTrue(match('aab', '*ab'))
         self.assertTrue(match('aab', '?ab'))
-
-
