@@ -4,10 +4,23 @@ def _le(left, right):
 
 def merge(left, right, cmp=_le):
     """
-    Merges two ordered iterables (left and right) keeping result ordered acording to cmp
+    Merges two ordered iterables (left and right) keeping result ordered according to cmp.
+    Ex:
+
+    >>> from merge import merge
+    >>> print(list(merge([1, 2], [3, 4])))
+    [1, 2, 3, 4]
+    >>> print(list(merge([1, 2], [0, 4])))
+    [0, 1, 2, 4]
+    >>> print(list(merge(range(3), range(2,5))))
+    [0, 1, 2, 2, 3, 4]
+
     :param left: iterable
     :param right: iterable
-    :param cmp: callable which receive a first element from left and a second from right and returns the minors. Default is less or equal operation
+    :param cmp: callable which receive one element from left and another from right and returns the on to be merged.
+    Default is less or equal then. Ex:
+    def _le(left, right):
+        return left if left <= right else right
     :return: merging of left and right
     """
     left = iter(left)
@@ -40,10 +53,3 @@ def merge(left, right, cmp=_le):
 
     yield from finish(l, left)
     yield from finish(r, right)
-
-
-print(list(merge([], [])))
-print(list(merge([1], [])))
-print(list(merge([1], [1])))
-print(list(merge([1], [0, 1, 2])))
-print(list(merge(range(5), range(2, 7))))
