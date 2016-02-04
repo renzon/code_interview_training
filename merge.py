@@ -30,11 +30,8 @@ def _merge(left, right, cmp=_le):
     class Finished:
         pass
 
-    def next_or_finished(iterable):
-        try:
-            return next(iterable)
-        except StopIteration:
-            return Finished
+    def next_or_finished(v):
+        return next(v, Finished)
 
     l = next_or_finished(left)
     r = next_or_finished(right)
@@ -64,3 +61,6 @@ def merge(*iterables, cmp=_le):
     for i in range(1, n):
         cur_it = _merge(cur_it, iterables[i], cmp)
     yield from cur_it
+
+
+print(list(merge([1, 2], [3, 4])))
