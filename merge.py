@@ -2,7 +2,7 @@ def _le(left, right):
     return left if left <= right else right
 
 
-def merge(left, right, cmp=_le):
+def _merge(left, right, cmp=_le):
     """
     Merges two ordered iterables (left and right) keeping result ordered according to cmp.
 
@@ -56,11 +56,11 @@ def merge(left, right, cmp=_le):
     yield from finish(r, right)
 
 
-def merge_all(*iterables, cmp=_le):
+def merge(*iterables, cmp=_le):
     n = len(iterables)
     if n == 0:
         return
     cur_it = iterables[0]
     for i in range(1, n):
-        cur_it = merge(cur_it, iterables[i], cmp)
+        cur_it = _merge(cur_it, iterables[i], cmp)
     yield from cur_it
