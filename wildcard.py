@@ -1,4 +1,6 @@
 # http://www.programcreek.com/2014/06/leetcode-wildcard-matching-java/
+import heapq
+
 
 def match(word, pattern):
     if len(word) != len(pattern):
@@ -24,3 +26,5 @@ class Test(unittest.TestCase):
         self.assertTrue(match('aab', 'aab'))
         self.assertTrue(match('aab', '*ab'))
         self.assertTrue(match('aab', '?ab'))
+
+heapq.merge()

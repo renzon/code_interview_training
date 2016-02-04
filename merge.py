@@ -54,3 +54,13 @@ def merge(left, right, cmp=_le):
 
     yield from finish(l, left)
     yield from finish(r, right)
+
+
+def merge_all(*iterables, cmp=_le):
+    n = len(iterables)
+    if n == 0:
+        return
+    cur_it = iterables[0]
+    for i in range(1, n):
+        cur_it = merge(cur_it, iterables[i], cmp)
+    yield from cur_it
