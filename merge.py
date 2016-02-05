@@ -1,3 +1,6 @@
+from itertools import islice
+
+
 def _le(left, right):
     return left if left <= right else right
 
@@ -58,9 +61,9 @@ def merge(*iterables, cmp=_le):
     if n == 0:
         return
     cur_it = iterables[0]
-    for i in range(1, n):
-        cur_it = _merge(cur_it, iterables[i], cmp)
+    for it in islice(iterables, 1, None):
+        cur_it = _merge(cur_it, it, cmp)
     yield from cur_it
 
 
-print(list(merge([1, 2], [3, 4])))
+print(list(merge([1], [2], [3])))
