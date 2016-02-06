@@ -1,3 +1,5 @@
+# Problem: http://www.programcreek.com/2012/12/leetcode-merge-intervals/
+
 from itertools import islice
 from unittest.case import TestCase
 
