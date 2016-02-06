@@ -9,7 +9,6 @@ class NotFound(Exception):
 
 def two_sum(ints, sum):
     n = len(ints)
-    ints = sorted(ints)
     end = n
     start = 0
 
@@ -38,7 +37,7 @@ class Tests(TestCase):
         self.assertRaises(NotFound, two_sum, [1, 2], 4)
 
     def test_obvious_case(self):
-        self.assertEquals((1, 2), two_sum([3, 2], 5))
+        self.assertEquals((1, 2), two_sum([2,3], 5))
 
     def test_middle(self):
         self.assertEquals((7, 10), two_sum(range(10), 15))
