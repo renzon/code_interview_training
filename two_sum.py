@@ -10,7 +10,9 @@ def two_sum(ints, sum):
     if len(ints) <= 1:
         raise ValueError()
     ints = sorted(ints)
-    if sum < min(ints[0], ints[1]):
+    if sum < min(ints[0], ints[1]):  # havent used slice like elif because of performance ;)
+        raise NotFound()
+    elif sum > min(*ints[-2:]):
         raise NotFound()
 
 
@@ -23,3 +25,6 @@ class Tests(TestCase):
 
     def test_sum_less_then_min(self):
         self.assertRaises(NotFound, two_sum, [1, 2], 0)
+
+    def test_sum_greater_then_max(self):
+        self.assertRaises(NotFound, two_sum, [1, 2], 4)
