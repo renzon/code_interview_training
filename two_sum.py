@@ -46,6 +46,9 @@ class Tests(TestCase):
     def test_repeated(self):
         self.assertEquals((2, 3), two_sum([0, 2, 2], 4))
 
+    def test_trick_for_bysect_right_and_left(self):
+        self.assertRaises(NotFound, two_sum, [2, 2, 2, 2, 2], 5)
+
     def test_trick_when_sum_minus_element_equals_to_element(self):
         self.assertRaises(NotFound, two_sum, [0, 4], 0)
 
