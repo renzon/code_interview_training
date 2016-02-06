@@ -9,13 +9,6 @@ class NotFound(Exception):
 
 def two_sum(ints, sum):
     n = len(ints)
-    # if n <= 1:
-    #     raise ValueError()
-    # ints = sorted(ints)
-    # if sum < ints[0]+ ints[1]:  # havent used slice like elif because of performance ;)
-    #     raise NotFound()
-    # elif sum > ints[-1]+int[-2]:
-    #     raise NotFound()
     ints = sorted(ints)
     end = n
     start = 0
