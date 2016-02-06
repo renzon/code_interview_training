@@ -7,17 +7,17 @@ class NotFound(Exception):
     pass
 
 
-def two_sum(ints, sum):
-    n = len(ints)
+def two_sum(numbers, sum):
+    n = len(numbers)
     end = n
     start = 0
 
     while start < end:
-        wanted = sum - ints[start]
-        previous = bisect(ints, wanted, start, end) - 1
-        if previous >= 0 and wanted == ints[previous] and start != previous:
+        wanted = sum - numbers[start]
+        previous = bisect(numbers, wanted, start, end) - 1
+        if previous >= 0 and wanted == numbers[previous] and start != previous:
             return start + 1, previous + 1
-        start = max(start + 1, bisect_left(ints, sum - ints[end - 1], start + 1, previous + 1) - 1)
+        start = max(start + 1, bisect_left(numbers, sum - numbers[end - 1], start + 1, previous + 1) - 1)
         end = previous + 1
 
     raise NotFound()
