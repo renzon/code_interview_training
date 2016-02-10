@@ -49,7 +49,6 @@ def search(pattern, text):
             elif i > 0:
                 i = fail[i - 1]
             else:
-                i = 0
                 j += 1
         return fail
 
