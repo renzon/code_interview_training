@@ -3,7 +3,8 @@ import unittest
 
 
 def is_palindrome(s):
-    pass
+    s = tuple(map(str.lower, filter(str.isalpha, s)))
+    return s == tuple(reversed(s))
 
 
 class Test(unittest.TestCase):
