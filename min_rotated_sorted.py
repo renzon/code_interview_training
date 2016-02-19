@@ -2,15 +2,25 @@
 
 import unittest
 
-from itertools import islice
-
 
 def my_min(seq):
     if seq:
-        for v, next_v in zip(seq, islice(seq, 1, None)):
-            if next_v < v:
-                return next_v
-        return seq[0]
+        lo = 0
+        hi = len(seq)
+
+        while lo < (hi - 2):
+            middle = (lo + hi) // 2
+            lo_value = seq[lo]
+            middle_value = seq[middle]
+            hi_value = seq[hi - 1]
+
+            if lo_value <= middle_value <= hi_value:
+                return lo_value
+            elif middle_value < lo_value:
+                hi = middle + 1
+            else:
+                lo = middle + 1
+        return min(seq[lo], seq[hi - 1])
 
 
 class Test(unittest.TestCase):
