@@ -28,3 +28,4 @@ class Test(unittest.TestCase):
         self.assertEquals(0, my_min(tuple(range(9))))
         self.assertEquals(0, my_min(tuple(range(5, 9)) + tuple(range(5))))
         self.assertEquals(0, my_min(tuple(range(1, 9)) + tuple(range(1))))
+        self.assertEquals(1, my_min([5, 1, 1, 1, 3, 4]))
