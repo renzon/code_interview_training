@@ -1,16 +1,38 @@
 # http://www.programcreek.com/2014/02/leetcode-find-peak-element/
 
 import unittest
-from itertools import chain, islice
+
+minus_inf = float('-inf')
+
+
+class ExtremesMinusInf():
+    def __init__(self, seq):
+        self.seq = seq
+        self.seq_len = len(seq)
+
+    def __getitem__(self, i):
+        if i == -1 or i == self.seq_len:
+            return minus_inf
+        return self.seq[i]
 
 
 def peak(seq):
-    extreme = (float('-inf'),)
-    left_seq = chain(extreme, seq)
-    right_seq = chain(islice(seq, 1, None), extreme)
-    for i, (left, middle, right) in enumerate(zip(left_seq, seq, right_seq)):
-        if middle > left and middle > right:
-            return i
+    if seq:
+        proxy = ExtremesMinusInf(seq)
+        lo = 0
+        hi = len(seq)
+        while lo < hi:
+            middle = (hi + lo) // 2
+            left = proxy[middle - 1]
+            right = proxy[middle + 1]
+            possible_peak = proxy[middle]
+            if left <= possible_peak and right <= possible_peak:
+                return middle
+            elif left > possible_peak:
+                hi = middle
+            else:
+                lo = middle + 1
+        return lo
 
 
 class Test(unittest.TestCase):
