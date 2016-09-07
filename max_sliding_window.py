@@ -8,7 +8,7 @@ from itertools import islice
 def max_slide(seq, k):
     """Calculate de max slide window
 
-    running time O(k(k+1) + (n-2k)*k) if n>=k
+    running time O(k-1+(n-k+1)*k) => O(nk+k**2)
 
     :param seq: a sequence
     :param k: a int
