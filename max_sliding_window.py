@@ -1,5 +1,8 @@
+# http://www.programcreek.com/2014/05/leetcode-sliding-window-maximum-java/
+
 # First Approach
 from collections import deque
+from itertools import islice
 
 
 def max_slide(seq, k):
@@ -11,26 +14,25 @@ def max_slide(seq, k):
     :param k: a int
     :return: max sliding window
     """
-    if k <= 0:
+    n = len(seq)
+    if k <= 0 or k > n:
         return []
-    window = deque(maxlen=k)
+    iterable = iter(seq)
+    window = deque(islice(iterable, k - 1))
     result = []
-    for elt in seq:
+    for elt in iterable:
         window.append(elt)
         result.append(max(window))
-    while window:
-        window.popleft()
-        if window:
-            result.append(max(window))
-        else:
-            break
     return result
 
 
-
-
 def test_max_slide():
-    assert [] == max_slide(range(3), 0)
-    assert [] == max_slide([], 3)
-    assert list(range(3)) == max_slide(range(3), 1)
-    assert list(range(3)) + [2] == max_slide(range(3), 2)
+    assert_max_slide(max_slide)
+
+
+def assert_max_slide(strategy):
+    assert [] == strategy(range(3), 0)
+    assert [] == strategy([], 3)
+    assert list(range(3)) == strategy(range(3), 1)
+    assert [1, 2] == strategy(range(3), 2)
+    assert [3, 3, 5, 5, 6, 7] == strategy([1, 3, -1, -3, 5, 3, 6, 7], 3)
