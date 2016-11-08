@@ -26,25 +26,71 @@ ABCDEFGHIJ
 So all possible permutations is 10! = 3,628,800
  
 
-
- 
-
  |A|B|C|D|E|F|G|H|I|J|
-0| | | | | | | | | | |  
-1| | | | | | | | | | |  
-2| | | | | | | | | | | 
-3| | | | | | | | | | |
-4| | | | | | | | | | | 
-5| | | | | | | | | | | 
-6| | | | | | | | | | | 
-7| | | | | | | | | | | 
-8| | | | | | | | | | | 
-9| | | | | | | | | | |
+0|X|X|X|X|X|O|X|X|X|X|  
+1|X|X|X|X|X|X|X|O|X|X|  
+2|X|X|X|X| |X| |X|X|X| 
+3|X|X|X|X| |X| |X|X|X|
+4|X|X|X|X|X|X|X|X|O|X| 
+5|X|X|X|X|X|X|X|X|X|O| 
+6|X|X|O|X|X|X|X|X|X|X| 
+7|X|X|X|O|X|X|X|X|X|X| 
+8| | |X|X|X|X|X|X|X|X| 
+9| | |X|X|X|X|X|X|X|X|
+
+### Round 8 
+7D
+0123456789
+FHEGIJCDBA
+OO  O OO                      
+Right: 4
+
+### Round 7 
+1H
+0123456789
+FHBIJACDEG
+OOXXXXOOXX                    
+Right: 4
+
+### Round 6 
+3J
+0123456789
+FHBCAIJDEG
+OOXXXXXOXX                    
+Right: 3 -> 6C correct, secret
+
+### Round 5 
+1H
+0123456789
+FHBJAICDEG
+OOXXXXOOXX                      
+Right: 4
+
+### Round 4 
+1C
+0123456789
+FHIJABCDEG
+OOXXXXOOXX                       
+Right: 4
+
+### Round 3 
+1A
+0123456789
+FIJABCDEGH
+                              
+Right: 1 Lost 250,000
+
+### Round 2 
+0F
+0123456789
+FJABCDEGHI
+                              
+Right: 1 Lost 250,000
 
 ### Round 1 
 0E
 0123456789
 ABCDEFGHIJ
                               
-Right: 3
+Right: 0 Lost 250,000
 
