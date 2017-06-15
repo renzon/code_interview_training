@@ -36,13 +36,28 @@ The shortest palindrome you can construct from 'baaa' is 'aaabaaa'.
 import pytest
 
 
+def is_palindrome(s):
+    return s == s[::-1]
+
+
+def find_biggest_subpalindrome_len(s):
+    if is_palindrome(s):
+        return len(s)
+    for end in range(len(s) - 1, 0, -1):
+        if is_palindrome(s[:end]):
+            return end
+
+
 def expect_palindrome(s):
-    return len(s) * 2 - 1
+    """Possible answer: finding biggest subplindrome on beggining which will
+    not have to be added to the and"""
+    return len(s) * 2 - find_biggest_subpalindrome_len(s)
 
 
 @pytest.mark.parametrize(
     's,expected',
     [
+        ('aababaa', 7),
         ('babaa', 7),
         ('baaa', 7),
         ('teste', 9),
