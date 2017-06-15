@@ -37,7 +37,7 @@ import pytest
 
 
 def is_palindrome(s):
-    return s == s[::-1]
+    return s == ''.join(reversed(s))
 
 
 def find_biggest_subpalindrome_len(s):
