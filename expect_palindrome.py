@@ -33,19 +33,51 @@ OUTPUT
 EXPLANATION
 The shortest palindrome you can construct from 'baaa' is 'aaabaaa'.
 """
+
 import pytest
 
 
-def is_palindrome(s):
-    return s == ''.join(reversed(s))
+class PalindromeFound(Exception):
+    def __init__(self, search):
+        self.search = search
+
+
+class PalindromeSearch:
+    def __init__(self, s, end):
+        self.s = s
+        self.end = end
+        self.cursor_end = end - 1
+        self.cursor_begin = 0
+
+    def match(self):
+        """ Check if char in cursor_end match cursor_begin.
+        If a match occurs cursors are updated.
+        :return: boolean
+        """
+        if self.cursor_begin >= self.cursor_end:
+            return True
+        result = self.s[self.cursor_begin] == self.s[self.cursor_end]
+        if result:
+            self.cursor_end -= 1
+            self.cursor_begin += 1
+        return result
+
+    def __len__(self):
+        return self.end
 
 
 def find_biggest_subpalindrome_len(s):
-    if is_palindrome(s):
-        return len(s)
-    for end in range(len(s) - 1, 0, -1):
-        if is_palindrome(s[:end]):
-            return end
+    """Inspired by https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm"""
+    searches = []
+    for end in range(len(s), -1, -1):
+        searches.append(PalindromeSearch(s, end))
+        try:
+            searches = [search for search in searches if search.match()]
+        except PalindromeFound as found:
+            return len(found.search)
+
+    max_search = searches[0]
+    return len(max_search)
 
 
 def expect_palindrome(s):
@@ -57,6 +89,7 @@ def expect_palindrome(s):
 @pytest.mark.parametrize(
     's,expected',
     [
+        ('', 0),
         ('aababaa', 7),
         ('babaa', 7),
         ('baaa', 7),

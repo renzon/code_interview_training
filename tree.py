@@ -89,7 +89,7 @@ def breadth_first_traversal(tree):
 print('############### Breadth First Traversal (')
 breadth_first_traversal(root)  # Expected 1, 0 , 4 , 3, 5, 2
 
-print('########### Binary Search')
+print('########### Binary PalindromeSearch')
 
 print(root.look_up(0))  # Expected True
 print(root.look_up(1))  # Expected True
