@@ -67,7 +67,8 @@ class PalindromeSearch:
 
 
 def find_biggest_subpalindrome_len(s):
-    """Inspired by https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm"""
+    """Inspired by https://en.wikipedia.org/wiki/Aho%E2%80
+    %93Corasick_algorithm"""
     searches = []
     for end in range(len(s), -1, -1):
         searches.append(PalindromeSearch(s, end))
@@ -78,6 +79,46 @@ def find_biggest_subpalindrome_len(s):
 
     max_search = searches[0]
     return len(max_search)
+
+
+def kmp_init(s):
+    indexes = [0] * (len(s) + 1)
+    i, j = 1, 0
+    while i < len(s):
+        if s[i] == s[j]:
+            i += 1
+            j += 1
+            indexes[i] = j
+        elif j == 0:
+            i += 1
+            indexes[i] = 0
+        else:
+            j = indexes[j]
+    return indexes
+
+
+def kmp_suffix(s):
+    s_reversed = s[::-1]
+    kmp_indexes = kmp_init(s)
+    i, j = 0, 0
+    n, m = len(s_reversed), len(s)
+
+    while i < n:
+        while i < n and j < m:
+            if s[j] == s_reversed[i]:
+                i += 1
+                j += 1
+            else:
+                break
+        if j == 0:
+            i += 1
+        if i == n:
+            return j
+        j = kmp_indexes[j]
+    return 0
+
+
+find_biggest_subpalindrome_len = kmp_suffix
 
 
 def expect_palindrome(s):
