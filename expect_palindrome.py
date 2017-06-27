@@ -86,8 +86,8 @@ def kmp_init(s):
     i, j = 1, 0
     while i < len(s):
         if s[i] == s[j]:
-            i += 1
             j += 1
+            i += 1
             indexes[i] = j
         elif j == 0:
             i += 1
