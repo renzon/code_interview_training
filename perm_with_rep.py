@@ -21,6 +21,26 @@ def perm_with_rep(seq):
     yield from _perm_with_rep('', chars_frequency)
 
 
+def perm_with_rep(seq):
+    frequencies = Counter(seq)
+    stack = []
+    stack.append(('', frequencies))
+    while stack:
+        prefix, frequencies = stack.pop()
+        if len(frequencies) == 0:
+            yield prefix
+            continue
+
+        for char, frequency in frequencies.items():
+            next_prefix = prefix + char
+            next_frequencies = dict(frequencies)
+            if frequency == 1:
+                del next_frequencies[char]
+            else:
+                next_frequencies[char] -= 1
+            stack.append((next_prefix, next_frequencies))
+
+
 @pytest.mark.parametrize(
     'seq,expected',
     [
