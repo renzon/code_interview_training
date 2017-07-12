@@ -1,24 +1,6 @@
-from collections import Counter
+from collections import Counter, OrderedDict
 
 import pytest
-
-
-def _perm_with_rep(current_s, chars_frequency):
-    if len(chars_frequency) == 0:
-        yield current_s
-    for char, freq in chars_frequency.items():
-        next_s = current_s + char
-        next_chars_frequency = dict(chars_frequency)
-        if freq == 1:
-            del next_chars_frequency[char]
-        else:
-            next_chars_frequency[char] -= 1
-        yield from _perm_with_rep(next_s, next_chars_frequency)
-
-
-def perm_with_rep(seq):
-    chars_frequency = Counter(seq)
-    yield from _perm_with_rep('', chars_frequency)
 
 
 def perm_with_rep(seq):
@@ -39,6 +21,26 @@ def perm_with_rep(seq):
             else:
                 next_frequencies[char] -= 1
             stack.append((next_prefix, next_frequencies))
+
+
+def _perm_with_rep(current_s, chars_frequency):
+    if len(chars_frequency) == 0:
+        yield current_s
+    for char, freq in chars_frequency.items():
+        next_s = current_s + char
+        if freq == 1:
+            next_chars_frequency = dict(chars_frequency)
+            del next_chars_frequency[char]
+        else:
+            next_chars_frequency = chars_frequency
+        chars_frequency[char] -= 1
+        yield from _perm_with_rep(next_s, next_chars_frequency)
+        chars_frequency[char] += 1
+
+
+def perm_with_rep(seq):
+    chars_frequency = OrderedDict(Counter(seq).items())
+    yield from _perm_with_rep('', chars_frequency)
 
 
 @pytest.mark.parametrize(

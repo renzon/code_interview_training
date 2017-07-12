@@ -6,6 +6,9 @@ from types import GeneratorType
 
 import pytest
 
+def test_fail():
+    pytest.fail('Foo')
+
 
 def generate_file(file_name, content):
     with open(file_name, 'w', encoding='utf8') as file:
