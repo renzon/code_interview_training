@@ -7,12 +7,14 @@ def find_pair_with_sum(seq, pair_sum):
     """Find a pair (a, b) in seq for which a + b is equals to pair_sum
     Returns the pair if it exists or None otherwise
 
+    Linear solution because it is O(n) [1] + O(n) [2] = O(2n) = O(n)
+
     :param seq: a sequence
     :param pair_sum: int with pair some
     :return: tuple with pair or None
     """
-    elements = Counter(seq)
-    for e, freq in elements.items():
+    elements = Counter(seq)  # O(n)  [1]
+    for e, freq in elements.items():  # O(n) [2] once in is constante for dicts
         candidate = pair_sum - e
         if (candidate == e and freq >= 2) or (
                 candidate != e and candidate in elements):
