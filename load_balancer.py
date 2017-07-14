@@ -8,7 +8,7 @@
 # 1
 # 1
 # 1
-# 1 server for 1 user. (1 server created)
+# 1 server for 1 size. (1 server created)
 # 2
 # 3
 # 2,2
@@ -24,7 +24,7 @@
 # 5
 # 0
 # 1,2,1
-# 3 servers for 4 users. (First user left after 4 ticks)
+# 3 servers for 4 users. (First size left after 4 ticks)
 # 6
 # 1
 # 2
