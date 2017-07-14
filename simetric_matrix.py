@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 # https://www.urionlinejudge.com.br/judge/pt/problems/view/1478
-import sys
+
 
 while True:
-    size = int(sys.argv[1])
-    if not (0 < size < 100):
+    size = int(input())
+    if size == 0:
         break
+    elif not (0 < size < 100):
+        continue
 
     for i in range(size):
         for j in range(size):
             item = abs(i - j) + 1
-            print('  %i' % item, end="")
+            print('{:>3}'.format(item), end="")
         print()
     print()
+2
