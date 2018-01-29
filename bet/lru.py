@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from functools import partial
 
 
 class LRUMiss(Exception):
@@ -13,12 +14,12 @@ class LastResourceUsed:
     Know isssue: age update is O(n)
     """
 
-    def __init__(self, limit=100):
-        self._limit = limit
+    def __init__(self, max_size=100):
+        self._max_size = max_size
         self._items = OrderedDict()
 
     def __setitem__(self, key, value):
-        if len(self) == self._limit:
+        if len(self) == self._max_size:
             self._items.popitem(last=False)
         self._items[key] = value
 
@@ -42,20 +43,20 @@ def test_lru_creation():
 
 
 def test_increased_len_on_empty_lru():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     lru['a'] = 'value'
     assert 1 == len(lru)
 
 
 def test_increased_len_not_full_lru():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     lru['a'] = 'value a'
     lru['b'] = 'value b'
     assert 2 == len(lru)
 
 
 def test_constant_len_on_full_lru():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     lru['a'] = 'value a'
     lru['b'] = 'value b'
     lru['c'] = 'value c'
@@ -63,19 +64,19 @@ def test_constant_len_on_full_lru():
 
 
 def test_item_retrieval():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     lru['a'] = 'value a'
     assert 'value a' == lru['a']
 
 
 def test_lru_miss():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     with pytest.raises(LRUMiss):
         lru['a']
 
 
 def test_oldest_used_item_removed():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     lru['a'] = 'value a'
     lru['b'] = 'value b'
     lru['c'] = 'value c'
@@ -84,7 +85,7 @@ def test_oldest_used_item_removed():
 
 
 def test_oldest_used_item_updated():
-    lru = LastResourceUsed(limit=2)
+    lru = LastResourceUsed(max_size=2)
     lru['a'] = 'value a'
     lru['b'] = 'value b'
     _ = lru['a']  # to update a use
@@ -93,8 +94,10 @@ def test_oldest_used_item_updated():
         lru['b']
 
 
-def lru(func):
-    func._cache = LastResourceUsed()
+def lru(func=None, *, max_size=100):
+    if func is None:
+        return partial(lru, max_size=max_size)
+    func._cache = LastResourceUsed(max_size=max_size)
     return func
 
 
@@ -106,9 +109,17 @@ def test_lru_decorator_cach_attribute():
     assert isinstance(f._cache, LastResourceUsed)
 
 
-def test_lru_decorator_default_limit():
+def test_lru_decorator_default_max_size():
     @lru
     def f():
         pass
 
-    assert 100 == f._cache._limit
+    assert 100 == f._cache._max_size
+
+
+def test_lru_decorator_non_default_max_size():
+    @lru(max_size=10)
+    def f():
+        pass
+
+    assert 10 == f._cache._max_size
