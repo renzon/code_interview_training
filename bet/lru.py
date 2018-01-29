@@ -46,11 +46,12 @@ def lru(func=None, *, max_size=100):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
+        key = (args, tuple(kwargs.items()))
         try:
-            return cache[args]
+            return cache[key]
         except LRUMiss:
             result = func(*args, **kwargs)
-            cache[args] = result
+            cache[key] = result
             return result
 
     wrapper._cache = cache
@@ -169,3 +170,12 @@ def test_lru_cache_overflow():
     mock.reset_mock()  # previous calls reset
     decorated(1, 2)
     mock.assert_called_once_with(1, 2)
+
+
+def test_lru_with_kwargs():
+    mock = Mock()
+    decorated = lru(max_size=2)(mock)
+    decorated(1, 2, foo='foo')
+    mock.reset_mock()
+    decorated(1, 2, foo='bar')
+    mock.assert_called_once_with(1, 2, foo='bar')
