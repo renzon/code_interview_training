@@ -1,4 +1,5 @@
 from collections import Counter
+from random import shuffle
 
 import pytest
 
@@ -19,17 +20,11 @@ def find_anagrams(word, target_set):
             yield target_word
 
 
-@pytest.mark.parametrize(
-    'word,expected',
-    [
-        ('foo', ['foo']),
-        ('bar', ['bar']),
-        ('baz', ['baz']),
-        ('banana', ['banana', 'nanaba']),
-        ('nanaba', ['banana', 'nanaba']),
-    ]
+SAMPLE = [('foo', ['foo']), ('bar', ['bar']), ('baz', ['baz']), ('banana', ['banana', 'nanaba']),
+          ('nanaba', ['banana', 'nanaba']), ]
 
-)
+
+@pytest.mark.parametrize('word,expected', SAMPLE)
 def test_own_list_words_are_anagrams(word, expected):
     anagrams = list(find_anagrams(word, WORDS))
     assert expected == anagrams
@@ -39,3 +34,12 @@ def test_own_list_words_are_anagrams(word, expected):
 def test_negative_anagram_match(word):
     anagrams = list(find_anagrams(word, WORDS))
     assert [] == anagrams
+
+
+@pytest.mark.parametrize('word,expected', SAMPLE)
+def test_shuffled(word, expected):
+    shuffled_letters = list(word)
+    shuffle(shuffled_letters)
+    word = ''.join(shuffled_letters)
+    anagrams = list(find_anagrams(word, WORDS))
+    assert expected == anagrams
