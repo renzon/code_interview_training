@@ -42,12 +42,18 @@ class LastResourceUsed:
 def lru(func=None, *, max_size=100):
     if func is None:
         return partial(lru, max_size=max_size)
+    cache = LastResourceUsed(max_size=max_size)
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)
+        try:
+            return cache[args]
+        except LRUMiss:
+            result = func(*args, **kwargs)
+            cache[args] = result
+            return result
 
-    wrapper._cache = LastResourceUsed(max_size=max_size)
+    wrapper._cache = cache
     return wrapper
 
 
@@ -134,5 +140,13 @@ def test_lru_decorator_non_default_max_size():
 def test_lru_call_not_on_cache():
     mock = Mock()
     decorated = lru(max_size=2)(mock)
+    decorated(1, 2)
+    mock.assert_called_once_with(1, 2)
+
+
+def test_lru_call_on_cache():
+    mock = Mock()
+    decorated = lru(max_size=2)(mock)
+    decorated(1, 2)
     decorated(1, 2)
     mock.assert_called_once_with(1, 2)
