@@ -1,5 +1,6 @@
 from collections import OrderedDict
-from functools import partial
+from functools import partial, wraps
+from unittest.mock import Mock
 
 
 class LRUMiss(Exception):
@@ -36,6 +37,18 @@ class LastResourceUsed:
             self._items.pop(key)
             self._items[key] = value
             return value
+
+
+def lru(func=None, *, max_size=100):
+    if func is None:
+        return partial(lru, max_size=max_size)
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+
+    wrapper._cache = LastResourceUsed(max_size=max_size)
+    return wrapper
 
 
 def test_lru_creation():
@@ -94,13 +107,6 @@ def test_oldest_used_item_updated():
         lru['b']
 
 
-def lru(func=None, *, max_size=100):
-    if func is None:
-        return partial(lru, max_size=max_size)
-    func._cache = LastResourceUsed(max_size=max_size)
-    return func
-
-
 def test_lru_decorator_cach_attribute():
     @lru
     def f():
@@ -123,3 +129,10 @@ def test_lru_decorator_non_default_max_size():
         pass
 
     assert 10 == f._cache._max_size
+
+
+def test_lru_call_not_on_cache():
+    mock = Mock()
+    decorated = lru(max_size=2)(mock)
+    decorated(1, 2)
+    mock.assert_called_once_with(1, 2)
