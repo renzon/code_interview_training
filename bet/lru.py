@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from unittest.mock import Mock
 
 
 class LRUMiss(Exception):
@@ -9,6 +10,10 @@ import pytest
 
 
 class LastResourceUsed:
+    """Class implementing LRU using OrderedDict as base.
+    Know isssue: age update is O(n)
+    """
+
     def __init__(self, limit=100):
         self._limit = limit
         self._items = OrderedDict()
@@ -87,3 +92,18 @@ def test_oldest_used_item_updated():
     lru['c'] = 'value c'
     with pytest.raises(LRUMiss):
         lru['b']
+
+
+def lru(func):
+    func._cache = LastResourceUsed()
+    return func
+
+
+def test_lru_decorator_cach_attribute():
+    mock = Mock()
+
+    @lru
+    def f(*args, **kwargs):
+        return mock(*args, **kwargs)
+
+    assert isinstance(f._cache, LastResourceUsed)
