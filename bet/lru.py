@@ -1,6 +1,13 @@
 from collections import OrderedDict
 
 
+class LRUMiss(Exception):
+    pass
+
+
+import pytest
+
+
 class LastResourceUsed:
     def __init__(self, limit=100):
         self._limit = limit
@@ -14,7 +21,10 @@ class LastResourceUsed:
         return len(self._items)
 
     def __getitem__(self, key):
-        return self._items[key]
+        try:
+            return self._items[key]
+        except KeyError:
+            raise LRUMiss(f'Item {key} no present on LRU') from KeyError
 
 
 def test_lru_creation():
@@ -46,3 +56,9 @@ def test_item_retrieval():
     lru = LastResourceUsed(limit=2)
     lru['a'] = 'value a'
     assert 'value a' == lru['a']
+
+
+def test_lru_miss():
+    lru = LastResourceUsed(limit=2)
+    with pytest.raises(LRUMiss):
+        lru['a']
