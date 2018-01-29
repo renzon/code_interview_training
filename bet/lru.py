@@ -158,3 +158,14 @@ def test_lru_cache_return_same_object():
     result = decorated(1, 2)
     cached_result = decorated(1, 2)
     assert result is cached_result
+
+
+def test_lru_cache_overflow():
+    mock = Mock()
+    decorated = lru(max_size=2)(mock)
+    decorated(1, 2)
+    decorated(1, 3)
+    decorated(1, 4)
+    mock.reset_mock()  # previous calls reset
+    decorated(1, 2)
+    mock.assert_called_once_with(1, 2)
