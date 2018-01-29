@@ -14,17 +14,20 @@ class LastResourceUsed:
         self._items = OrderedDict()
 
     def __setitem__(self, key, value):
-        if len(self) < self._limit:
-            self._items[key] = value
+        if len(self) == self._limit:
+            self._items.popitem(last=False)
+        self._items[key] = value
 
     def __len__(self):
         return len(self._items)
 
     def __getitem__(self, key):
         try:
-            return self._items[key]
+            value = self._items[key]
         except KeyError:
             raise LRUMiss(f'Item {key} no present on LRU') from KeyError
+        else:
+            return value
 
 
 def test_lru_creation():
@@ -60,5 +63,14 @@ def test_item_retrieval():
 
 def test_lru_miss():
     lru = LastResourceUsed(limit=2)
+    with pytest.raises(LRUMiss):
+        lru['a']
+
+
+def test_last_used_item_removed():
+    lru = LastResourceUsed(limit=2)
+    lru['a'] = 'value a'
+    lru['b'] = 'value b'
+    lru['c'] = 'value c'
     with pytest.raises(LRUMiss):
         lru['a']
