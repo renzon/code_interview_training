@@ -2,12 +2,11 @@ from collections import OrderedDict
 from functools import partial, wraps
 from unittest.mock import Mock
 
+import pytest
+
 
 class LRUMiss(Exception):
     pass
-
-
-import pytest
 
 
 class LastResourceUsed:
@@ -40,6 +39,12 @@ class LastResourceUsed:
 
 
 def lru(func=None, *, max_size=100):
+    """Implementes LRU cache. All decorated function arguments must be hashable
+
+    :param func: function to decorate
+    :param max_size: max cache size
+    :return: cached object if present or function return, which is cached for next calls
+    """
     if func is None:
         return partial(lru, max_size=max_size)
     cache = LastResourceUsed(max_size=max_size)
@@ -179,3 +184,16 @@ def test_lru_with_kwargs():
     mock.reset_mock()
     decorated(1, 2, foo='bar')
     mock.assert_called_once_with(1, 2, foo='bar')
+
+
+def test_lru_non_cacheable_args():
+    @lru(max_size=10)
+    def f(*args, **kwargs):
+        pass
+
+    class NotCacheable():
+        def __hash__(self):
+            raise NotImplementedError()
+
+    with pytest.raises(NotImplementedError):
+        f(NotCacheable())
