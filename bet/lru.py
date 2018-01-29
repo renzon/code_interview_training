@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from unittest.mock import Mock
 
 
 class LRUMiss(Exception):
@@ -100,10 +99,16 @@ def lru(func):
 
 
 def test_lru_decorator_cach_attribute():
-    mock = Mock()
-
     @lru
-    def f(*args, **kwargs):
-        return mock(*args, **kwargs)
+    def f():
+        pass
 
     assert isinstance(f._cache, LastResourceUsed)
+
+
+def test_lru_decorator_default_limit():
+    @lru
+    def f():
+        pass
+
+    assert 100 == f._cache._limit
