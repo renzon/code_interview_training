@@ -33,3 +33,9 @@ def find_anagrams(word, target_set):
 def test_own_list_words_are_anagrams(word, expected):
     anagrams = list(find_anagrams(word, WORDS))
     assert expected == anagrams
+
+
+@pytest.mark.parametrize('word', ['foo ', 'bananas', '', 'ba', 'bar8'])
+def test_negative_anagram_match(word):
+    anagrams = list(find_anagrams(word, WORDS))
+    assert [] == anagrams
