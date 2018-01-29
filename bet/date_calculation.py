@@ -14,3 +14,8 @@ def calculate_next_draw(dt: datetime = None):
 @pytest.mark.parametrize('dt', [WEDNESDAY_DRAW_DATETIME, SATURDAY_DRAW_DATETIME])
 def test_exactly_draw_datetime(dt):
     assert dt == calculate_next_draw(dt)
+
+
+@pytest.mark.parametrize('dt', [WEDNESDAY_DRAW_DATETIME, SATURDAY_DRAW_DATETIME, datetime.now()])
+def test_draws_happens_in_the_future(dt):
+    assert dt >= calculate_next_draw(dt)
