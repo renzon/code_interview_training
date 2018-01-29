@@ -150,3 +150,11 @@ def test_lru_call_on_cache():
     decorated(1, 2)
     decorated(1, 2)
     mock.assert_called_once_with(1, 2)
+
+
+def test_lru_cache_return_same_object():
+    mock = Mock()
+    decorated = lru(max_size=2)(mock)
+    result = decorated(1, 2)
+    cached_result = decorated(1, 2)
+    assert result is cached_result
