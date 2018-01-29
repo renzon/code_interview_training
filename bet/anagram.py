@@ -1,6 +1,22 @@
+from collections import Counter
+
 import pytest
 
 WORDS = ['foo', 'bar', 'baz', 'banana', 'nanaba']
+
+
+def find_anagrams(word, target_set):
+    """Generate words present on target_set which are an anagram of word
+
+    :param word: str
+    :param target_set: iterable with available words
+    :return: generator
+    """
+    word_letters_count = Counter(word)
+    for target_word in target_set:
+        target_letters_count = Counter(target_word)
+        if word_letters_count == target_letters_count:
+            yield target_word
 
 
 @pytest.mark.parametrize(
@@ -8,7 +24,7 @@ WORDS = ['foo', 'bar', 'baz', 'banana', 'nanaba']
     [
         ('foo', ['foo']),
         ('bar', ['bar']),
-        ('bar', ['baz']),
+        ('baz', ['baz']),
         ('banana', ['banana', 'nanaba']),
         ('nanaba', ['banana', 'nanaba']),
     ]
