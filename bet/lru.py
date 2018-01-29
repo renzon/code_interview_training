@@ -27,6 +27,9 @@ class LastResourceUsed:
         except KeyError:
             raise LRUMiss(f'Item {key} no present on LRU') from KeyError
         else:
+            # Updating age before returning value
+            self._items.pop(key)
+            self._items[key] = value
             return value
 
 
@@ -67,10 +70,20 @@ def test_lru_miss():
         lru['a']
 
 
-def test_last_used_item_removed():
+def test_oldest_used_item_removed():
     lru = LastResourceUsed(limit=2)
     lru['a'] = 'value a'
     lru['b'] = 'value b'
     lru['c'] = 'value c'
     with pytest.raises(LRUMiss):
         lru['a']
+
+
+def test_oldest_used_item_updated():
+    lru = LastResourceUsed(limit=2)
+    lru['a'] = 'value a'
+    lru['b'] = 'value b'
+    _ = lru['a']  # to update a use
+    lru['c'] = 'value c'
+    with pytest.raises(LRUMiss):
+        lru['b']
