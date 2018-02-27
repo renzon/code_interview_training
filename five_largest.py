@@ -15,7 +15,7 @@ class NegativaNumberAdded(Exception):
 
 class FiveLargest:
     """
-    Calculate the five largest number appended. Only non integers number can be accepted.
+    Calculate the five largest numbers appended. Only non integers number can be accepted.
 
     Ex:
 
