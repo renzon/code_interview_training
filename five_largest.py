@@ -9,7 +9,7 @@ Requisites:
 """
 
 
-class NegativaNumberAdded(Exception):
+class NegativeNumberAdded(Exception):
     pass
 
 
@@ -46,7 +46,7 @@ class FiveLargest:
     >>> five_largest.append(-1)
     Traceback (most recent call last):
     ...
-    five_largest.NegativaNumberAdded: -1
+    five_largest.NegativeNumberAdded: -1
 
     """
 
@@ -59,7 +59,7 @@ class FiveLargest:
 
     def append(self, n):
         if n < 0:
-            raise NegativaNumberAdded(n)
+            raise NegativeNumberAdded(n)
         value_index_gen = ((value, index) for index, value in enumerate(self._numbers))
         min_value, min_index = min(value_index_gen)
         self._numbers[min_index] = max(min_value, n)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         n = float(input('Type a number: '))
         try:
             five_largest.append(n)
-        except NegativaNumberAdded:
+        except NegativeNumberAdded:
             break
         else:
             print(list(five_largest.largest_numbers()))
