@@ -22,80 +22,79 @@ board_white_finished = [
 ]
 
 
-def has_move(board, line, column):
-    m = len(board)
-    if m == 0:
-        raise Exception('Should have at least one line')
-    n = len(board[0])
-    if n == 0:
-        raise Exception('Should have at least one column')
+class MoveResolver:
 
-    def neighbors(line, column):
-        def neighbor_range(current, max_value):
-            return range(max(0, current - 1), min(max_value, current + 2))
+    def __init__(self, board):
+        self.board = board
 
-        return (
-            (a, b) for a, b in
-            product(neighbor_range(line, m), neighbor_range(column, n))
-            if (a, b) != (line, column)
-        )
+    def has_move(self, x, y):
+        """Returns a boolean indicating if color present on position x,y still has available move
 
-    color = board[line][column]
+        :param x: position x
+        :param y: position y
+        :return: bool
+        """
+        origin = x, y
+        return any(self.get_color(x, y) == EMPTY for x, y in self.edge_neighbours(origin))
 
-    if color is EMPTY:
-        raise Exception('Should be an colored position')
+    def find_edge_point(self, x, y):
+        color = self.get_color(x, y)
+        if color == EMPTY:
+            raise Exception('Can only calculate possible moves of non empty points')
+        edge_x = x
+        for edge_x in range(x, -1, -1):
+            if color != self.get_color(edge_x, y):
+                break
+        return edge_x, y
 
-    def neighbors_of_same_color(line, column):
-        return ((a, b) for a, b in neighbors(line, column) if
-                board[a][b] is color)
+    def get_color(self, x, y):
+        return self.board[x][y]
 
-    def has_empty_neighbor(line, column):
-        return any(board[l][c] is EMPTY for l, c in
-                   neighbors(line, column))
+    def scan_edge(self, origin):
+        first_edge = self.find_edge_point(*origin)
+        yield first_edge
 
-    def is_edge(line, column):
-        return (
-            line == 0 or line == (m - 1) or column == 0 or column == (n - 1) or
-            any(board[l][c] is not color for l, c in neighbors(line, column))
-        )
+        first_edge_neighbours = set(self.calculate_edge_neighbours(first_edge))
+        yield from first_edge_neighbours
 
-    # find_edge
+        current_edge = next(self.calculate_neighbours(first_edge), None)
+        previous_edge = first_edge
 
-that     while not is_edge(line, column):
-        column -= 1
-    first_edge = line, column
+        while current_edge is not None:
+            current_edge_neighbours = set(self.calculate_edge_neighbours(current_edge))
+            previous_edge_neighbours = set(self.calculate_edge_neighbours(previous_edge))
+            current_edge_neighbours -= previous_edge_neighbours
+            current_edge_neighbours -= first_edge_neighbours
+            yield from current_edge_neighbours
+            previous_edge = current_edge
+            current_edge = next(iter(current_edge_neighbours), None)
 
-    def next_edge(current_edge, previous_edge):
-        for neighbor in neighbors_of_same_color(*current_edge):
-            if neighbor != first_edge and neighbor != previous_edge and \
-                    is_edge(*neighbor):
-                return neighbor
+    def edge_neighbours(self, point):
+        for edge in self.scan_edge(point):
+            yield from self.calculate_neighbours(edge)
 
-    current_edge = previous_edge = first_edge
-    while current_edge:
-        if has_empty_neighbor(*current_edge):
-            return True
-        aux = current_edge
-        current_edge = next_edge(current_edge, previous_edge)
-        previous_edge = aux
-    return False
-# # O(m*n) in time and space
-# visited = set()
-# to_be_visited = [(line, column)]
-#
-# while to_be_visited:
-#     current_line, current_column = to_be_visited.pop()
-#     if has_empty_neighbor(current_line, current_column):
-#         return True
-#     visited.add((current_line, current_column))
-#     to_be_visited.extend(
-#         (a, b) for a, b in
-#         neighbors_of_same_color(current_line, current_column)
-#         if (a, b) not in visited
-#     )
-# return False
+    def calculate_neighbours(self, point):
+        x, y = point
+
+        feasible_x_range = {max(0, x - 1), x, min(len(self.board) - 1, x + 1)}
+        feasible_y_range = {max(0, y - 1), y, min(len(self.board[0]) - 1, y + 1)}
+
+        for neihgbour_candidate in product(feasible_x_range, feasible_y_range):
+            if neihgbour_candidate != point:
+                yield neihgbour_candidate
+
+    def calculate_edge_neighbours(self, edge):
+        color = self.get_color(*edge)
+
+        def is_border(x, y):
+            return x == 0 or x == (len(self.board) - 1) or y == 0 or y == (len(self.board[0]) - 1)
+
+        for edge_candidate in self.calculate_neighbours(edge):
+            if color == self.get_color(*edge_candidate) and (
+                    is_border(*edge_candidate) or any(self.get_color(x, y) != color for x, y in
+                                                      self.calculate_neighbours(edge_candidate))):
+                yield edge_candidate
 
 
-# print(has_move(board_white_unfinished, 1, 1))
-
-print(has_move(board_white_finished, 1, 1))
+print(MoveResolver(board_white_finished).has_move(1, 1))
+print(MoveResolver(board_white_unfinished).has_move(1, 1))
