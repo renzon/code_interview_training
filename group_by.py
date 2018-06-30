@@ -1,7 +1,8 @@
 import datetime
 import operator
 from datetime import timedelta
-from itertools import groupby
+from functools import reduce
+from itertools import groupby, accumulate, chain
 
 
 def group(data):
@@ -10,13 +11,21 @@ def group(data):
     def calc_timedelta(dct):
         return dct['fim'] - dct['inicio']
 
+    def sum_freq_and_timedelta(resultado, delta):
+        resultado['quantidade'] += 1
+        resultado['tempo'] += delta
+        return resultado
+
     for k, g in groupby(data, key=operator.itemgetter('motivo')):
-        g = list(g)
-        yield {
+        start = {
             'motivo': k,
-            'tempo': str(sum(map(calc_timedelta, g), timedelta(0, 0, 0, 0, 0, 0, 0))),
-            'quantidade': len(g)
+            'tempo': timedelta(0, 0, 0, 0, 0, 0, 0),
+            'quantidade': 0
         }
+
+        result = reduce(sum_freq_and_timedelta, map(calc_timedelta, g), start)
+        result['tempo'] = str(result['tempo'])
+        yield result
 
 
 def test():
