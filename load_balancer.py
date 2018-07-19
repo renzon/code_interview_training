@@ -1,6 +1,3 @@
-U_MAX = 2
-
-
 class Task:
     t_task = 4
 
