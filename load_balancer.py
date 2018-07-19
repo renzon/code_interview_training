@@ -1,164 +1,96 @@
-# Load Balancing is quite important in Cloud environments. We are always trying to minimize the costs so we keep the number of servers as low as possible. On the other hand we know that capacity and performance improves when we add more servers. The challenge is to keep the servers as busy as possible under a certain load capacity. On our simulation environment, at each clock tick (time unit), users connect to available servers and request the same task to be executed. Each task consumes Ttask ticks of time to get accomplished and after that the user disconnects immediately. The servers are virtual machines that can be spin up immediately to accommodate new users. Each servers costs $1.00 per clock tick and can handle with Umax number of simultaneous users. You can terminate the empty servers. Your challenge is to build a program in Python that handles with the incoming users and assign them to servers keeping the cost as low as possible. Input: A file where each line contains the number of new users for that tick. Output: A file where each line contains a list of the available servers at the end of that tick, represented by the number of users on each server. Example with Ttask	=	4 and Umax	=	2
-#
-#
-# Clock Ticks
-# Input
-# Output
-# Tip
-# 1
-# 1
-# 1
-# 1 server for 1 size. (1 server created)
-# 2
-# 3
-# 2,2
-# 2 servers for 4 users. (1 server created)
-# 3
-# 0
-# 2,2
-# idem
-# 4
-# 1
-# 2,2,1
-# 3 servers for 5 users. (1 server created)
-# 5
-# 0
-# 1,2,1
-# 3 servers for 4 users. (First size left after 4 ticks)
-# 6
-# 1
-# 2
-# 1 server for 2 users (3 users left, 1 joined. 2 servers terminated)
+U_MAX = 2
 
 
-users_in = [1, 3, 0, 1, 0]
+class Task:
+    t_task = 4
 
-TTASK_TICKS = 4
-
-TICK_COST = 1  # 1 USD
-
-USER_MAX_SLOT = 2
-
-servers = []
-
-
-class UserTask():
-    # tarefa
     def __init__(self):
-        self.ticks = TTASK_TICKS
+        self.missing_ticks = self.t_task
 
-
-    def tick(self):
-        self.ticks -= 1
-
+    def execute_tick(self):
+        self.missing_ticks -= 1
 
     def finished(self):
-        return self.ticks == 0
+        return self.missing_ticks <= 0
+
+    def __repr__(self):
+        return f'Task({self.missing_ticks})'
 
 
-class Server():
+class Server:
+    u_max = 2
+
     def __init__(self):
-        print('Turning on a server')
         self.tasks = []
 
-    def add_task(self, task):
-        # verifica a quantidade maxima de usuarios por servidor
-        if len(self.tasks) == USER_MAX_SLOT:
-            return False
-        self.tasks.append(task)
-        return True
+    def is_full(self):
+        return self.u_max == len(self.tasks)
 
+    def is_empty(self):
+        return 0 == len(self.tasks)
 
-    def tick(self):
-        for t in self.tasks:
-            t.tick()
-            # ticks ativas no servidor
+    def add(self, task):
+        if not self.is_full():
+            self.tasks.append(task)
+
+    def execute_tick(self):
+        for task in self.tasks:
+            task.execute_tick()
         self.tasks = [t for t in self.tasks if not t.finished()]
 
-        # usuarios ativos no momento, tarefas no momento
+    def __repr__(self):
+        return f'Sever({self.tasks!r})'
 
+    def __str__(self):
+        return str(len(self))
 
-    def active_tasks_len(self):
+    def __len__(self):
         return len(self.tasks)
 
 
-# [1,3,0,1,0,1]
+class LoadBalancer:
+    def __init__(self):
+        self.servers = []
+        self.cost = 0
 
-# users_number= 1
-#servers =[]
-for users_number in users_in:
-    # executando tick para todos servidores
-    for s in servers:
-        s.tick()
+    def __repr__(self):
+        return f'LoadBalancer(cost={self.cost},{self.servers!r})'
 
-    # Remover servidor zerado
-    server = [s for s in servers if s.active_tasks_len() >= 1]
+    def execute_tick(self):
+        for server in self.servers:
+            server.execute_tick()
+        self.cost += len(self)
+        self.servers = [s for s in self.servers if not s.is_empty()]
 
-    # numero de usuarios que acessam no momento
+    def handle(self, users):
+        for _ in range(users):
+            for server in self.servers:
+                if not server.is_full():
+                    server.add(Task())
+                    break
+            else:
+                server = Server()
+                server.add(Task())
+                self.servers.append(server)
 
-    def use_existing_server(task):
-        for s in servers:
-            task_appended = s.add_task(task)
-            if task_appended:
-                return True
-        return False
+    def __len__(self):
+        return len(self.servers)
 
-    #users_number=1
-    #i= 0
-    for i in range(users_number):
-        new_task = UserTask()
-        # servidor ocioso
-        task_appended = use_existing_server(new_task)
-        if not task_appended:
-            # novo servidor
-            server = Server()
-            server.add_task(new_task)
-            servers.append(server)
-        # tempo 4
-        # server = [Server(UserTask(0), UserTask(1)), Server(UserTask(1), UserTask(1)), Server(UserTask(3)) ]
-        # server = [Server(UserTask(1)), Server(UserTask(1), UserTask(1)), Server(UserTask(3)) ]
-
-        # server = [Server(UserTask(0)), Server(UserTask(0), UserTask(0)), Server(UserTask(2)) ]
-
-        # server = [Server(), Server(), Server(UserTask(2)) ]
-
-        # server = [Server(UserTask(2), UserTask(4)) ]
-
-    print([s.active_tasks_len() for s in servers])
-
-# Output=[2]		
+    def __str__(self):
+        return ','.join(str(s) for s in self.servers)
 
 
+users_per_tick = [1, 3, 0, 1, 0, 1]
 
+balancer = LoadBalancer()
+for users in users_per_tick:
+    balancer.execute_tick()
+    # print(users, balancer)
+    balancer.handle(users)
+    print(balancer)
 
+while len(balancer) != 0:
+    balancer.execute_tick()
+    print(balancer)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(f'${balancer.cost}')
