@@ -37,9 +37,7 @@ class Estacionamento:
 
     def estacionar(self, carro):
         self.ultima_posicao_ocupada += 1
-        andar = self.ultima_posicao_ocupada // self.VAGAS_POR_ANDAR
-        vaga_no_andar = self.ultima_posicao_ocupada % self.VAGAS_POR_ANDAR
-        return andar, vaga_no_andar
+        return divmod(self.ultima_posicao_ocupada, self.VAGAS_POR_ANDAR)
 
 
 class Carro:
