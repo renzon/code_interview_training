@@ -1,4 +1,4 @@
-class Task:
+class Tarefa:
     t_task = 4
 
     def __init__(self):
@@ -11,7 +11,7 @@ class Task:
         return self.missing_ticks <= 0
 
     def __repr__(self):
-        return f'Task({self.missing_ticks})'
+        return f'Tarefa({self.missing_ticks})'
 
 
 class Server:
