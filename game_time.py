@@ -31,16 +31,14 @@ def to_minutes(hour, minute):
 
 
 def game_time(start_hour, start_minute, end_hour, end_minute):
-    if (start_hour, start_minute) == (end_hour, end_minute):
-        return 'O JOGO DUROU 24 HORA(S) E 0 MINUTO(S)'
     start_total_minutes = to_minutes(start_hour, start_minute)
     end_total_minutes = to_minutes(end_hour, end_minute)
 
     delta = end_total_minutes - start_total_minutes
-    if delta < 0:
+    if delta <= 0:
         delta += 24 * 60  # adding a day in minutes
     hour_minute_tpl = divmod(delta, 60)
     return 'O JOGO DUROU %i HORA(S) E %i MINUTO(S)' % hour_minute_tpl
 
-print(game_time(*map(int, input().strip().split())))
+# print(game_time(*map(int, input().strip().split())))
 
