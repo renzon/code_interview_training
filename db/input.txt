@@ -1,0 +1,15 @@
+Database name                           = DB2PD02
+Database status                         = Active
+First database connect timestamp        = 03/28/2019 20:15:13.220301
+Database name                           = DB2PD011
+Database status                         = Active
+First database connect timestamp        = 03/28/2019 20:15:13.220301
+Database name                           = DB2PD30
+Database status                         = Active
+First database connect timestamp        = 03/28/2019 20:15:13.220301
+Database name                           = DB2PD04
+Database status                         = Active
+First database connect timestamp        = 03/28/2019 20:15:13.220301
+Database name                           = DB2PD14
+Database status                         = Active
+First database connect timestamp        = 03/28/2019 20:15:13.220301
