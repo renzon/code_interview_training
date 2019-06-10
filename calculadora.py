@@ -23,6 +23,7 @@ class Calculadora:
         self.operacoes[sinal] = operacao
 
     def calcular(self):
+
         operandos = []
         operandos.append(float(input('digite um numero: ')))
         sinal = input(('digite o sinal da operação: '))
