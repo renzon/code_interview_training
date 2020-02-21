@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 
-class ExectuionItem(BaseModel):
+class ExecutionItem(BaseModel):
     id: int = None
     status: str
     params: List[str]
@@ -20,7 +20,7 @@ class Execution(BaseModel):
     inputs: str
     outputs: str
     creation: datetime
-    execution_items: List[ExectuionItem] = []
+    execution_items: List[ExecutionItem] = []
 
 
 _executions = []
