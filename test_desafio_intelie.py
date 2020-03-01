@@ -52,20 +52,21 @@ schema = [
 # A função deve receber `facts` (todos fatos conhecidos) e `schema` como argumentos.
 
 class FactsProcessor:
-    def __init__(self, facts, schema):
+    def __init__(self, schema):
         self._client_aggregators = {}
         self._schema = schema
-        self._facts = facts
 
-    def proccess(self):
-        for fact in self._facts:
+    def proccess(self, facts):
+        facts_to_return = deque()
+        for fact in reversed(facts):
             client_name = fact[0]
             if client_name not in self._client_aggregators:
                 self._client_aggregators[client_name] = ClientProcessor(
                     client_name, self._make_attribute_processors()
                 )
-            client_aggregator = self._client_aggregators[client_name]
-            client_aggregator.process(fact)
+            if self._should_be_on_result(fact):
+                facts_to_return.appendleft(fact)
+        return facts_to_return
 
     def _make_attribute_processors(self):
         attribute_processors = {}
@@ -76,17 +77,8 @@ class FactsProcessor:
 
         return attribute_processors
 
-    def calculate_facts(self):
-        facts_to_return = deque()
-        for fact in reversed(self._facts):
-            if self._should_be_on_result(fact):
-                facts_to_return.appendleft(fact)
-        return facts_to_return
-
     def _should_be_on_result(self, fact):
-        client_name, should_be_present = fact[0], fact[-1]
-        if not should_be_present:
-            return False
+        client_name = fact[0]
         client_aggregator = self._client_aggregators[client_name]
         return client_aggregator.should_be_on_result(fact)
 
@@ -94,62 +86,45 @@ class FactsProcessor:
 class CardinalityProcessor:
     def __init__(self, name):
         self.name = name
-        self._facts = []
         self._values_to_remove = Counter()
-
-    def process(self, fact):
-        should_be_kept = fact[-1]
-        if should_be_kept:
-            self._facts.append(fact)
-        else:
-            fact_value = fact[2]
-            self._values_to_remove[fact_value] += 1
 
     def should_be_on_result(self, fact):
         raise NotImplementedError()
 
 
-class CardinalityManyProcessor(CardinalityProcessor):
+class ManyProcessorMixin:
     def should_be_on_result(self, fact):
-        if len(self._facts) == 0:
+        fact_value, keep_last_fact = fact[-2], fact[-1]
+        if not keep_last_fact:
+            self._values_to_remove[fact_value] += 1
             return False
-        maybe_fact = self._facts.pop()
-        fact_value = maybe_fact[2]
+
         if self._values_to_remove[fact_value] > 0:
             self._values_to_remove[fact_value] -= 1
             return False
         return True
 
 
-class CardinalityOneProcessor(CardinalityProcessor):
+class CardinalityManyProcessor(ManyProcessorMixin, CardinalityProcessor):
+    pass
 
+
+class CardinalityOneProcessor(ManyProcessorMixin, CardinalityProcessor):
     def __init__(self, name):
         super().__init__(name)
-        self._already_return_fact = False
+        self._already_returned_fact = False
 
     def should_be_on_result(self, fact):
-        if self._already_return_fact:
+        if self._already_returned_fact:
             return False
-        if len(self._facts) == 0:
-            return False
-        maybe_fact = self._facts.pop()
-        fact_value = maybe_fact[2]
-        if self._values_to_remove[fact_value] > 0:
-            self._values_to_remove[fact_value] -= 1
-            return False
-        self._already_return_fact = True
-        return True
+        self._already_returned_fact = super().should_be_on_result(fact)
+        return self._already_returned_fact
 
 
 class ClientProcessor:
     def __init__(self, name: str, attribute_processors: dict):
         self._attribute_processors = attribute_processors
         self.name = name
-
-    def process(self, fact):
-        attribute = fact[1]
-        attribute_processor = self._attribute_processors[attribute]
-        attribute_processor.process(fact)
 
     def should_be_on_result(self, fact):
         attribute = fact[1]
@@ -159,22 +134,22 @@ class ClientProcessor:
 
 @pytest.fixture
 def processor():
-    return FactsProcessor(facts, schema)
+    return FactsProcessor(schema)
 
 
 def test_fact_creation(processor: FactsProcessor):
-    assert processor._facts, processor._schema == (facts, schema)
+    assert processor._schema == schema
 
 
 def test_client_aggregator(processor: FactsProcessor):
     assert processor._client_aggregators == {}
-    processor.proccess()
+    processor.proccess(facts)
     assert set(processor._client_aggregators.keys()) == {'joão', 'gabriel'}
 
 
 @pytest.fixture
 def proccessed_processor(processor):
-    processor.proccess()
+    processor.proccess(facts)
     return processor
 
 
@@ -198,35 +173,14 @@ def test_cardinality_many_processor_setup(client_aggregator_joao):
     assert isinstance(attribute_processor, CardinalityManyProcessor)
 
 
-def test_facts_many(client_aggregator_joao):
-    attribute_processor = client_aggregator_joao._attribute_processors['telefone']
-    assert attribute_processor._facts == [
-        ('joão', 'telefone', '234-5678', True),
-        ('joão', 'telefone', '91234-5555', True),
-    ]
-
-
-def test_facts_one(client_aggregator_joao):
-    attribute_processor = client_aggregator_joao._attribute_processors['endereço']
-    assert attribute_processor._facts == [
-        ('joão', 'endereço', 'rua alice, 10', True),
-        ('joão', 'endereço', 'rua bob, 88', True),
-    ]
-
-
 def test_values_to_remove_one(client_aggregator_joao):
     attribute_processor = client_aggregator_joao._attribute_processors['endereço']
     assert attribute_processor._values_to_remove == Counter()
 
 
-def test_values_to_remove_many(client_aggregator_joao):
-    attribute_processor = client_aggregator_joao._attribute_processors['telefone']
-    assert attribute_processor._values_to_remove == Counter(['234-5678'])
-
-
-def test_calculate_facts(proccessed_processor: FactsProcessor):
-    facts = list(proccessed_processor.calculate_facts())
-    assert facts == [
+def test_proccessed_facts(processor: FactsProcessor):
+    proccessed_facts = list(processor.proccess(facts))
+    assert proccessed_facts == [
         ('gabriel', 'endereço', 'av rio branco, 109', True),
         ('joão', 'endereço', 'rua bob, 88', True),
         ('joão', 'telefone', '91234-5555', True),
