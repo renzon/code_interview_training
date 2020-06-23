@@ -37,5 +37,13 @@ class Calculadora:
         return resultado
 
 
+def s_or_no():
+    while True:
+        s_n=str(input("deseja continuar S/N ")).strip().upper()
+        if s_n in {"N", "S"}:
+            return s_n
+
+
 if __name__ == '__main__':
+    print('aqui')
     print(Calculadora().calcular())

@@ -30,4 +30,5 @@ def test_matrix_switch():
     ]
 
     # Asserting matrix operation
+    print('Aqui')
     assert switch(input_matrix, [2, 3, 0, 1, 4, 5]) == expected_matrix
