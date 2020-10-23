@@ -34,11 +34,9 @@ def sao_isomorficas(s: str, t: str) -> bool:
 
     for letra_em_s, letra_em_t in zip(s, t):
         try:
-            valor_de_s_eh_respectivo_a_letra_de_t = (dct[letra_em_s] == letra_em_t)
+            if dct[letra_em_s] != letra_em_t:
+                return False
         except KeyError:
             dct[letra_em_s] = letra_em_t
-        else:
-            if not valor_de_s_eh_respectivo_a_letra_de_t:
-                return False
 
     return True
