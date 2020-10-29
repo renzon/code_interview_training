@@ -9,7 +9,7 @@ def group(data):
     data.sort(key=operator.itemgetter('motivo'))
 
     def calc_timedelta(dct):
-        return dct['fim'] - dct['inicio']
+        return dct['fim'] - dct['palavra_inicio']
 
     def sum_freq_and_timedelta(resultado, delta):
         resultado['quantidade'] += 1
@@ -30,19 +30,19 @@ def group(data):
 
 def test():
     data = [{'motivo': 'Mecanica',
-             'inicio': datetime.datetime(2018, 6, 28, 14, 26, 3, 108553),
+             'palavra_inicio': datetime.datetime(2018, 6, 28, 14, 26, 3, 108553),
              'fim': datetime.datetime(2018, 6, 28, 15, 26, 3, 107554)},
             {'motivo': 'Mecanica',
-             'inicio': datetime.datetime(2018, 6, 28, 14, 26, 7, 446634),
+             'palavra_inicio': datetime.datetime(2018, 6, 28, 14, 26, 7, 446634),
              'fim': datetime.datetime(2018, 6, 28, 15, 26, 7, 445632)},
             {'motivo': 'Eletrica',
-             'inicio': datetime.datetime(2018, 6, 28, 14, 26, 11, 873525),
+             'palavra_inicio': datetime.datetime(2018, 6, 28, 14, 26, 11, 873525),
              'fim': datetime.datetime(2018, 6, 28, 15, 26, 11, 872520)},
             {'motivo': 'Mecanica',
-             'inicio': datetime.datetime(2018, 6, 28, 14, 26, 17, 607448),
+             'palavra_inicio': datetime.datetime(2018, 6, 28, 14, 26, 17, 607448),
              'fim': datetime.datetime(2018, 6, 28, 15, 26, 17, 607448)},
             {'motivo': 'Energia  Gs',
-             'inicio': datetime.datetime(2018, 6, 28, 14, 26, 22, 655489),
+             'palavra_inicio': datetime.datetime(2018, 6, 28, 14, 26, 22, 655489),
              'fim': datetime.datetime(2018, 6, 28, 15, 26, 22, 655489)}]
 
     esperado = [

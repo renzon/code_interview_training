@@ -33,7 +33,7 @@ Métodos em comum:
     ('a', 'a')
     >>> len(s), len(lst)
     (6, 6)
-    >>> s[2:5],lst[2:5]  # O(final - inicial)
+    >>> s[2:5],lst[2:5]  # O(palavra_final - inicial)
     ('nan', ['n', 'a', 'n'])
     >>> s[:5],lst[:5]
     ('banan', ['b', 'a', 'n', 'a', 'n'])
