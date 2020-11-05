@@ -29,10 +29,11 @@ def tamanho_da_sequencia_de_transformacao(palavra_inicio: str, palavra_final: st
     >>> tamanho_da_sequencia_de_transformacao('hit', 'fat', {"hot","dot","dog","lot","log"})
     Traceback (most recent call last):
     ...
-    ex_04_escada_de_palavras.TransformacaoNaoEncontrada: Impossível achar um transformação de fat para cog
+    ex_04_escada_de_palavras.TransformacaoNaoEncontrada: Impossível achar um transformação de hit para fat
 
 
-    O(n**n) para memória e tempo de execução
+    O(n) para tempo e espaço
+
     :param palavra_inicio:
     :param palavra_final:
     :param conjunto_de_palavras:
@@ -42,6 +43,7 @@ def tamanho_da_sequencia_de_transformacao(palavra_inicio: str, palavra_final: st
     tamanho_do_menor_caminho = 1
     fila_de_nos = deque()
     fila_de_nos.append((palavra_inicio, tamanho_do_menor_caminho))
+    palavras_ja_marcadas = {palavra_inicio}
 
     while len(fila_de_nos) >= 1:
         palavra_corrente, tamanho_do_menor_caminho = fila_de_nos.popleft()
@@ -49,8 +51,10 @@ def tamanho_da_sequencia_de_transformacao(palavra_inicio: str, palavra_final: st
             return tamanho_do_menor_caminho
         else:
             for palavra_do_conjunto in conjunto_de_palavras:
-                if possui_apenas_uma_letra_diferente(palavra_do_conjunto, palavra_corrente):
+                if palavra_do_conjunto not in palavras_ja_marcadas and \
+                        possui_apenas_uma_letra_diferente(palavra_do_conjunto, palavra_corrente):
                     fila_de_nos.append((palavra_do_conjunto, tamanho_do_menor_caminho + 1))
+                    palavras_ja_marcadas.add(palavra_do_conjunto)
 
     raise TransformacaoNaoEncontrada(f'Impossível achar um transformação de {palavra_inicio} para {palavra_final}')
 
