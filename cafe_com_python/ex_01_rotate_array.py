@@ -57,8 +57,8 @@ def rotacionar(lista: List, k: int):
     >>> lista = [1,2,3,4,5,6,7]
     >>> list(rotacionar(lista, 3)) # O(n) em tempo, e a lista gerada O(n) em espaço
     [5, 6, 7, 1, 2, 3, 4]
-    >>> for elemento in rotacionar(lista, 1): # O(n) em tempo, e a lista gerada O(n) em espaço
-    ...     print(elemento)
+    >>> for elemento_a_ser_inserido in rotacionar(lista, 1): # O(n) em tempo, e a lista gerada O(n) em espaço
+    ...     print(elemento_a_ser_inserido)
     ...
     7
     1
@@ -84,8 +84,8 @@ def rotacionar_generator(lista: List, k: int):
     >>> lista = [1,2,3,4,5,6,7]
     >>> list(rotacionar_generator(lista, 3))  # O(n) em tempo, e a lista gerada O(n) em espaço
     [5, 6, 7, 1, 2, 3, 4]
-    >>> for elemento in rotacionar_generator(lista, 1):  # O(n) em tempo execução, O(1) em memória
-    ...     print(elemento)
+    >>> for elemento_a_ser_inserido in rotacionar_generator(lista, 1):  # O(n) em tempo execução, O(1) em memória
+    ...     print(elemento_a_ser_inserido)
     ...
     7
     1

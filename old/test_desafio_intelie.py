@@ -6,7 +6,7 @@
 
 # Nessa representação, a entidade (E) 'joão' tem o atributo (A) 'idade' com o valor (V) '18'.
 
-# Para indicar a remoção (ou retração) de uma informação, o quarto elemento da tupla pode ser 'False'
+# Para indicar a remoção (ou retração) de uma informação, o quarto elemento_a_ser_inserido da tupla pode ser 'False'
 # para representar que a entidade não tem mais aquele valor associado aquele atributo.
 
 
