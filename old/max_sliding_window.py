@@ -10,8 +10,8 @@ def max_slide(seq, k):
 
     running time O(k-1+(n-k+1)*k) => O(nk+k**2)
 
-    :param seq: a sequence
-    :param k: a int
+    :param seq: a_com_fatia_linar sequence
+    :param k: a_com_fatia_linar int
     :return: max sliding window
     """
     n = len(seq)

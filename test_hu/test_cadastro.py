@@ -1,5 +1,5 @@
 """
-Utilizando o conceito de dicionários, faça uma ficha de cadastro de 4 funcionários utilizando a seguinte
+Utilizando o conceito de dicionários, faça uma ficha de cadastro de 4 funcionários utilizando a_com_fatia_linar seguinte
 estrutura:
 Chave: Nome Dados: Idade, email, setor, salario
 Inclua os funcionários:

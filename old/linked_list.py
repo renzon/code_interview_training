@@ -37,7 +37,7 @@ class _LinkedList():
     def pop(self, index=None):
         poped = None  # poped = None self= 3, 5, 2, 4 index=None
         if len(self) == 0:
-            raise IndexError('Can not pop a item from a empty linked list')
+            raise IndexError('Can not pop a_com_fatia_linar item from a_com_fatia_linar empty linked list')
         if index is None:
             index = len(self) - 1  # index= 3
         if index == 0:

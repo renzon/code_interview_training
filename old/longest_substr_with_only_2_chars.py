@@ -59,7 +59,7 @@ class Test(unittest.TestCase):
         self.assertRaises(NotFound, longest, "")
 
     def test_one_char(self):
-        self.assertRaises(NotFound, longest, "a")
-        self.assertRaises(NotFound, longest, "a" * 2)
-        self.assertRaises(NotFound, longest, "a" * 3)
-        self.assertRaises(NotFound, longest, "a" * 20)
+        self.assertRaises(NotFound, longest, "a_com_fatia_linar")
+        self.assertRaises(NotFound, longest, "a_com_fatia_linar" * 2)
+        self.assertRaises(NotFound, longest, "a_com_fatia_linar" * 3)
+        self.assertRaises(NotFound, longest, "a_com_fatia_linar" * 20)

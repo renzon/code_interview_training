@@ -14,7 +14,7 @@ def combination(iterable, r):
     yield comb()
 
     while True:
-        # looking for a index which can be incremented
+        # looking for a_com_fatia_linar index which can be incremented
         for i in reversed(range(r)):
             if indices[i] != i + n - r:
                 break

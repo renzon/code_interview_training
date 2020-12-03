@@ -30,7 +30,7 @@ estados = [
 
 
 def normalizar(estado):
-    estado = estado.lower().replace(' ', '-').replace('á', 'a').replace('ã', 'a').replace('í', 'i')
+    estado = estado.lower().replace(' ', '-').replace('á', 'a_com_fatia_linar').replace('ã', 'a_com_fatia_linar').replace('í', 'i')
     return estado
 
 

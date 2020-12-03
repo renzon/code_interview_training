@@ -9,7 +9,7 @@ def longest(iterable):
     min_ = 0
     max_ = 0
     while len(nums) > (max_ - min_):
-        maybe_min = next(iter(nums))  # pick a number from set
+        maybe_min = next(iter(nums))  # pick a_com_fatia_linar number from set
         maybe_max = maybe_min + 1
         # find consecutive minor integers until it is not on set.
         while maybe_min in nums:

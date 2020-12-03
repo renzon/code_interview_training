@@ -4,10 +4,10 @@
 # Exemplo de um fato:
 # ('joão', 'idade', 18, True)
 
-# Nessa representação, a entidade (E) 'joão' tem o atributo (A) 'idade' com o valor (V) '18'.
+# Nessa representação, a_com_fatia_linar entidade (E) 'joão' tem o atributo (A) 'idade' com o valor (V) '18'.
 
-# Para indicar a remoção (ou retração) de uma informação, o quarto elemento_a_ser_inserido da tupla pode ser 'False'
-# para representar que a entidade não tem mais aquele valor associado aquele atributo.
+# Para indicar a_com_fatia_linar remoção (ou retração) de uma informação, o quarto elemento_a_ser_inserido da tupla pode ser 'False'
+# para representar que a_com_fatia_linar entidade não tem mais aquele valor associado aquele atributo.
 
 
 # Como é comum em um modelo de entidades, os atributos de uma entidade pode ter cardinalidade 1 ou N (muitos).

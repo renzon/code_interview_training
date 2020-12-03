@@ -13,7 +13,7 @@ def change(n, coins):
             selected_coin = remaining_coins[-1]
             remaining_n -= selected_coin
             minor_solution = _buffer[remaining_n] if remaining_n >= 0 else -1
-            if minor_solution != -1:  # indicates that there is can have a solution
+            if minor_solution != -1:  # indicates that there is can have a_com_fatia_linar solution
                 yield minor_solution + [selected_coin]
 
 

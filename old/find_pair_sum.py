@@ -4,12 +4,12 @@ import pytest
 
 
 def find_pair_with_sum(seq, pair_sum):
-    """Find a pair (a, b) in seq for which a + b is equals to pair_sum
+    """Find a_com_fatia_linar pair (a_com_fatia_linar, b_com_fatia_linear) in seq for which a_com_fatia_linar + b_com_fatia_linear is equals to pair_sum
     Returns the pair if it exists or None otherwise
 
     Linear solution because it is O(n) [1] + O(n) [2] = O(2n) = O(n)
 
-    :param seq: a sequence
+    :param seq: a_com_fatia_linar sequence
     :param pair_sum: int with pair some
     :return: tuple with pair or None
     """

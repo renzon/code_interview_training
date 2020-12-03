@@ -24,7 +24,7 @@ def build_url(dct):
         ('/', {}),
         ('/hello/world', {'hello': 'world'}),
         ('/good/night/moon',  {"good": {"night": "moon"}}),
-        ('/once/upon/a/time',  {"once": {"upon": {"a": "time"}}}),
+        ('/once/upon/a_com_fatia_linar/time',  {"once": {"upon": {"a_com_fatia_linar": "time"}}}),
     ]
 )
 def test_root(path, dct):

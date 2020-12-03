@@ -1,6 +1,6 @@
 def conta_vogais(frase):
     espaço = " "
-    vogais = ['a', 'e', 'i', 'o', 'u']
+    vogais = ['a_com_fatia_linar', 'e', 'i', 'o', 'u']
     print(f' qtide de espaços vazios: {frase.count(espaço)}')
     ordem = sorted(frase)
     for i in range(len(ordem)):

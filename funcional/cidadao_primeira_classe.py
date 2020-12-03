@@ -4,7 +4,7 @@ def f():
 
 print(type(f))
 
-anonima = lambda : 'a'
+anonima = lambda : 'a_com_fatia_linar'
 
 print(anonima.__name__)
 
@@ -15,5 +15,5 @@ def ready(funcao):
 
 
 ready(
-    lambda : 'a'
+    lambda : 'a_com_fatia_linar'
     )

@@ -4,7 +4,7 @@ import pytest
 
 
 def max_stock_profit(series):
-    """Calculate maximum profit from a temporal series, return a tuple where first element is the min
+    """Calculate maximum profit from a_com_fatia_linar temporal series, return a_com_fatia_linar tuple where first element is the min
     value which occurred before the max value, the second element
 
     :param series: list

@@ -23,8 +23,8 @@ def min_palindrome_split2(word):
 
 print(min_palindrome_split(''))
 print(min_palindrome_split2(''))
-print(min_palindrome_split('a'))
-print(min_palindrome_split2('a'))
+print(min_palindrome_split('a_com_fatia_linar'))
+print(min_palindrome_split2('a_com_fatia_linar'))
 print(min_palindrome_split('aa'))
 print(min_palindrome_split2('aa'))
 print(min_palindrome_split('ab'))

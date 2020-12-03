@@ -1,6 +1,6 @@
-# a turtle moves from 2D point 0,0. First element in array indicate the turtle's move to North. Next move to east, next to South, next to West and so on.
+# a_com_fatia_linar turtle moves from 2D point 0,0. First element in array indicate the turtle's move to North. Next move to east, next to South, next to West and so on.
 #
-# Read an array of movements and indicate when the turtle cross a path which it has already crossed.
+# Read an array of movements and indicate when the turtle cross a_com_fatia_linar path which it has already crossed.
 #
 # example: [1,2,3, 4] does not cross
 # [2,2,2,2] cross on item with index 3 (in zero based array)

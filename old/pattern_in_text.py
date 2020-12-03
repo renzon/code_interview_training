@@ -81,7 +81,7 @@ print(search('amalgamation', ''))
 
 class Test(unittest.TestCase):
     def test_char(self):
-        self.assertEqual(0, search('a', 'abacate'))
+        self.assertEqual(0, search('a_com_fatia_linar', 'abacate'))
 
     def test_begin(self):
         self.assertEqual(0, search('ab', 'abacate'))

@@ -1,8 +1,8 @@
 """
     >>> freq('banana')
-    {'b': 1, 'a': 3, 'n': 2}
+    {'b_com_fatia_linear': 1, 'a_com_fatia_linar': 3, 'n': 2}
     >>> freq('aha')
-    {'a': 2, 'h': 1}
+    {'a_com_fatia_linar': 2, 'h': 1}
 """
 from functools import reduce
 

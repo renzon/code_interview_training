@@ -18,19 +18,19 @@ busca([1, 2, 4, 5])      O(lg(n))
 [38, 42] 40
 [38, 39] 38
 
-a(0) = n
-a(1) = n / 2
-a(2) = n / 4
-a(2) = n / 8
+a_com_fatia_linar(0) = n
+a_com_fatia_linar(1) = n / 2
+a_com_fatia_linar(2) = n / 4
+a_com_fatia_linar(2) = n / 8
 ...
 ...
-a(i) = n / 2 ** i
+a_com_fatia_linar(i) = n / 2 ** i
 
 1024
 2048
 4096
 
-a(i) <= 1
+a_com_fatia_linar(i) <= 1
 
 <=>
 

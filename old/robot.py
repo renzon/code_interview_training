@@ -27,7 +27,7 @@ class RobotNameTest(unittest.TestCase):
         )
 
     def test_reset_name(self):
-        # Set a seed
+        # Set a_com_fatia_linar seed
         seed = "Totally random."
 
         # Initialize RNG using the seed

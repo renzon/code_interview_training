@@ -1,5 +1,5 @@
 """
-Allow non negative numbers be appended to a data structure and provide 5 largest appended numbers.
+Allow non negative numbers be appended to a_com_fatia_linar data structure and provide 5 largest appended numbers.
 
 Requisites:
 
@@ -68,7 +68,7 @@ class FiveLargest:
 if __name__ == '__main__':
     five_largest = FiveLargest()
     while True:
-        n = float(input('Type a number: '))
+        n = float(input('Type a_com_fatia_linar number: '))
         try:
             five_largest.append(n)
         except NegativeNumberAdded:

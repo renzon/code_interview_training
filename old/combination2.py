@@ -18,7 +18,7 @@ class CombinationTests(unittest.TestCase):
         self.assertEquals([], combination(''))
 
     def test_non_empty(self):
-        self.assertEquals(['a'], combination('a'))
+        self.assertEquals(['a_com_fatia_linar'], combination('a_com_fatia_linar'))
         self.assertEquals(set(['ab', 'ba']), set(combination('ab')))
         self.assertEquals(set(['abc', 'acb', 'bac', 'bca', 'cab', 'cba']), set(combination('abc')))
 

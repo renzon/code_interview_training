@@ -4,9 +4,9 @@
 Memory Limit:64 MB
 Time Limit: 5 s
 
-A palindrome is a word that reads the same backward and forward.
+A palindrome is a_com_fatia_linar word that reads the same backward and forward.
 
-Given a string S, you are allowed to convert it to a palindrome by adding 0
+Given a_com_fatia_linar string S, you are allowed to convert it to a_com_fatia_linar palindrome by adding 0
 or more characters in front of it.
 
 Find the length of the shortest palindrome that you can create from S by
@@ -16,7 +16,7 @@ applying the above transformation.
 
 Your program will take
 A string S ( 1 ≤ Length(S) ≤ 100) where each character of S will be
-a lowercase alphabet (Between 'a' to 'z')
+a_com_fatia_linar lowercase alphabet (Between 'a_com_fatia_linar' to 'z')
 
 ## Output Specifications
 

@@ -3,7 +3,7 @@ Enunciado: https://www.programcreek.com/2014/05/leetcode-reverse-words-in-a-stri
 
 lista
 lista.insert(indice, valor) O(tamanho - indice)
-Então a lista é uma boa estrutura para implementar uma pilha LIFO Last In First Out
+Então a_com_fatia_linar lista é uma boa estrutura para implementar uma pilha LIFO Last In First Out
 
 Deque implmenta uma lista duplamente ligada em Python.
 Esse tipo de estrutura de dados é ideal para implementar Fila - FIFO - First In First Out
@@ -57,9 +57,9 @@ def reverter_palavras_espaco_constante_se_tamanaho_da_palavra_constante(frase: s
 def reverter_palavras_tempo_constate(frase: List) -> List:
     """
     >>> reverter_palavras_tempo_constate(
-    ... ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'])
-    ['b', 'l', 'u', 'e', ' ', 'i', 's', ' ', 's', 'k', 'y', ' ', 't', 'h', 'e']
-    e u l b   ' ' e h t
+    ... ['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b_com_fatia_linear', 'l', 'u', 'e'])
+    ['b_com_fatia_linear', 'l', 'u', 'e', ' ', 'i', 's', ' ', 's', 'k', 'y', ' ', 't', 'h', 'e']
+    e u l b_com_fatia_linear   ' ' e h t
 
     0 -> 12
     1 -> 13
@@ -91,8 +91,8 @@ def reverter_palavras_tempo_constate(frase: List) -> List:
 
 def reverter_espaco_constante(frase: list) -> list:
     """
-    >>> reverter_espaco_constante(['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b', 'l', 'u', 'e'])
-    ['b', 'l', 'u', 'e', ' ', 'i', 's', ' ', 's', 'k', 'y', ' ', 't', 'h', 'e']
+    >>> reverter_espaco_constante(['t', 'h', 'e', ' ', 's', 'k', 'y', ' ', 'i', 's', ' ', 'b_com_fatia_linear', 'l', 'u', 'e'])
+    ['b_com_fatia_linear', 'l', 'u', 'e', ' ', 'i', 's', ' ', 's', 'k', 'y', ' ', 't', 'h', 'e']
     
     eht yks si eulb
     

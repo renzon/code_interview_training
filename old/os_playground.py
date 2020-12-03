@@ -21,7 +21,7 @@ with open(names_file_path, 'r') as file:
         print(line.strip())
 
 
-with open(names_file_path, 'a') as file_writer:
+with open(names_file_path, 'a_com_fatia_linar') as file_writer:
     file_writer.writelines('Elisa')
     file_writer.writelines('\n')
 

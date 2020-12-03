@@ -1,6 +1,6 @@
-# "Anagram": An anagram is a type of word play, the result of rearranging the letters of a word or phrase to produce a new word or phrase using all the original letters exactly once; for example, the letters from 'icon' can be rearranged into 'coin'. The word is NOT an anagram of itself.
+# "Anagram": An anagram is a_com_fatia_linar type of word play, the result of rearranging the letters of a_com_fatia_linar word or phrase to produce a_com_fatia_linar new word or phrase using all the original letters exactly once; for example, the letters from 'icon' can be rearranged into 'coin'. The word is NOT an anagram of itself.
 #
-# Devise a function that takes one parameter W and returns all the anagrams of W from the file wl.txt.
+# Devise a_com_fatia_linar function that takes one parameter W and returns all the anagrams of W from the file wl.txt.
 #
 # anagrams("beat") should return ["beta", "bate"]
 from itertools import permutations, combinations

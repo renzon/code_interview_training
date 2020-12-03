@@ -28,11 +28,11 @@ class CombinationTests(unittest.TestCase):
         self.assertEqual([], list(combination('')))
 
     def test_longer_combinations(self):
-        self.assertEqual([], list(combination('a', 2)))
+        self.assertEqual([], list(combination('a_com_fatia_linar', 2)))
 
     def test_combinations(self):
         self.assertEqual([], list(combination('abc', 0)))
-        self.assertEqual(set(['a', 'b', 'c']), set(combination('abc', 1)))
+        self.assertEqual(set(['a_com_fatia_linar', 'b_com_fatia_linear', 'c']), set(combination('abc', 1)))
         self.assertEqual(set(['ba', 'ca','cb']), set(combination('abc', 2)))
         self.assertEqual(['cba'], list(combination('abc', 3)))
 		

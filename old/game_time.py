@@ -1,12 +1,12 @@
 """
 Tempo de Jogo com Minutos
-Leia a hora inicial, minuto inicial, hora palavra_final e minuto palavra_final de um jogo. A seguir
-calcule a duração do jogo.
+Leia a_com_fatia_linar hora inicial, minuto inicial, hora palavra_final e minuto palavra_final de um jogo. A seguir
+calcule a_com_fatia_linar duração do jogo.
 Obs: O jogo tem duração mínima de um (1) minuto e duração máxima de 24 horas.
 Entrada
-Quatro números inteiros representando a hora de início e fim do jogo.
+Quatro números inteiros representando a_com_fatia_linar hora de início e fim do jogo.
 Saída
-Mostre a seguinte mensagem: “O JOGO DUROU XXX HORA(S) E YYY MINUTO(S)” .
+Mostre a_com_fatia_linar seguinte mensagem: “O JOGO DUROU XXX HORA(S) E YYY MINUTO(S)” .
 https://www.urionlinejudge.com.br/judge/pt/problems/view/1047
 --
 
@@ -36,7 +36,7 @@ def game_time(start_hour, start_minute, end_hour, end_minute):
 
     delta = end_total_minutes - start_total_minutes
     if delta <= 0:
-        delta += 24 * 60  # adding a day in minutes
+        delta += 24 * 60  # adding a_com_fatia_linar day in minutes
     hour_minute_tpl = divmod(delta, 60)
     return 'O JOGO DUROU %i HORA(S) E %i MINUTO(S)' % hour_minute_tpl
 

@@ -28,7 +28,7 @@ class MoveResolver:
         self.board = board
 
     def has_move(self, x, y):
-        """Returns a boolean indicating if color present on position x,y still has available move
+        """Returns a_com_fatia_linar boolean indicating if color present on position x,y still has available move
 
         :param x: position x
         :param y: position y

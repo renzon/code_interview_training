@@ -1,18 +1,18 @@
 """
-Suppose a alphabetically (unicode) ordered array of strings.
+Suppose a_com_fatia_linar alphabetically (unicode) ordered array of strings.
 The array is not accessible but there is function word which
-given a index as parameter returns its respective word.
+given a_com_fatia_linar index as parameter returns its respective word.
 If index is out of array range, it returns empty string.
 Array's size is unknown.
 
-Base on that function write a function word_index() that
+Base on that function write a_com_fatia_linar function word_index() that
 given an str as parameter returns its index if it is on
 array or -1 otherwise.
 
 """
 from unittest.case import TestCase
 
-_PRIVATE_ARRAY = [chr(i) for i in range(ord('a') + 1, ord('z'))]
+_PRIVATE_ARRAY = [chr(i) for i in range(ord('a_com_fatia_linar') + 1, ord('z'))]
 
 
 def search_word(idx):
@@ -52,7 +52,7 @@ class WordIndexTestCase(TestCase):
                 self.assertEqual(i, word_index(v), 'Wrong for %s' % v)
 
     def test_word_before_first(self):
-        self.assertEqual(-1, word_index('a'))
+        self.assertEqual(-1, word_index('a_com_fatia_linar'))
 
     def test_word_after_last(self):
         self.assertEqual(-1, word_index('z'))

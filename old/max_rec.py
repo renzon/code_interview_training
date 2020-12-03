@@ -1,4 +1,4 @@
-# Describe a recursive algorithm for finding the maximum element in a se- quence, S, of n elements. What is your running time and space usage?
+# Describe a_com_fatia_linar recursive algorithm for finding the maximum element in a_com_fatia_linar se- quence, S, of n elements. What is your running time and space usage?
 from unittest.case import TestCase
 
 

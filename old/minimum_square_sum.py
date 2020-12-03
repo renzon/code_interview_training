@@ -17,7 +17,7 @@ def minimum_square_sum(n):
     """
     Return the min list of square number which sum is n
 
-    :param n: a integer to search
+    :param n: a_com_fatia_linar integer to search
     :return: the min list
     """
 

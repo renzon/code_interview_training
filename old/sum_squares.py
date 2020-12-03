@@ -1,4 +1,4 @@
-# Given n, write the short sequence a,b,c..k where all numbers in are perfect squares and its sum is n
+# Given n, write the short sequence a_com_fatia_linar,b_com_fatia_linear,c..k where all numbers in are perfect squares and its sum is n
 from unittest.case import TestCase
 
 cache = [(0,), (1,)]

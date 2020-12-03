@@ -6,7 +6,7 @@ def expt(base, n):
 
     return linear(base, n)
 
-# b^(2n) = (b^2)ˆn
+# b_com_fatia_linear^(2n) = (b_com_fatia_linear^2)ˆn
 def expt_fast(base, n):
     def logarithmic(base, n, result=1):
         if n == 0:

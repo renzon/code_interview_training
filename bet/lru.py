@@ -69,54 +69,54 @@ def test_lru_creation():
 
 def test_increased_len_on_empty_lru():
     lru = LastResourceUsed(max_size=2)
-    lru['a'] = 'value'
+    lru['a_com_fatia_linar'] = 'value'
     assert 1 == len(lru)
 
 
 def test_increased_len_not_full_lru():
     lru = LastResourceUsed(max_size=2)
-    lru['a'] = 'value a'
-    lru['b'] = 'value b'
+    lru['a_com_fatia_linar'] = 'value a_com_fatia_linar'
+    lru['b_com_fatia_linear'] = 'value b_com_fatia_linear'
     assert 2 == len(lru)
 
 
 def test_constant_len_on_full_lru():
     lru = LastResourceUsed(max_size=2)
-    lru['a'] = 'value a'
-    lru['b'] = 'value b'
+    lru['a_com_fatia_linar'] = 'value a_com_fatia_linar'
+    lru['b_com_fatia_linear'] = 'value b_com_fatia_linear'
     lru['c'] = 'value c'
     assert 2 == len(lru)
 
 
 def test_item_retrieval():
     lru = LastResourceUsed(max_size=2)
-    lru['a'] = 'value a'
-    assert 'value a' == lru['a']
+    lru['a_com_fatia_linar'] = 'value a_com_fatia_linar'
+    assert 'value a_com_fatia_linar' == lru['a_com_fatia_linar']
 
 
 def test_lru_miss():
     lru = LastResourceUsed(max_size=2)
     with pytest.raises(LRUMiss):
-        lru['a']
+        lru['a_com_fatia_linar']
 
 
 def test_oldest_used_item_removed():
     lru = LastResourceUsed(max_size=2)
-    lru['a'] = 'value a'
-    lru['b'] = 'value b'
+    lru['a_com_fatia_linar'] = 'value a_com_fatia_linar'
+    lru['b_com_fatia_linear'] = 'value b_com_fatia_linear'
     lru['c'] = 'value c'
     with pytest.raises(LRUMiss):
-        lru['a']
+        lru['a_com_fatia_linar']
 
 
 def test_oldest_used_item_updated():
     lru = LastResourceUsed(max_size=2)
-    lru['a'] = 'value a'
-    lru['b'] = 'value b'
-    _ = lru['a']  # to update a use
+    lru['a_com_fatia_linar'] = 'value a_com_fatia_linar'
+    lru['b_com_fatia_linear'] = 'value b_com_fatia_linear'
+    _ = lru['a_com_fatia_linar']  # to update a_com_fatia_linar use
     lru['c'] = 'value c'
     with pytest.raises(LRUMiss):
-        lru['b']
+        lru['b_com_fatia_linear']
 
 
 def test_lru_decorator_cach_attribute():
