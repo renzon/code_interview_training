@@ -4,8 +4,35 @@ Enunciado:
 https://www.programcreek.com/2012/12/leetcode-median-of-two-sorted-arrays-java/https://www.programcreek.com/2012/12/leetcode-median-of-two-sorted-arrays-java/
 
 """
+import abc
 from itertools import islice
 from numbers import Number
+
+
+class OuvidorDeMouse(abc.ABC):
+    @abc.abstractmethod
+    def click_com_botao_direito(self):
+        pass
+
+    @abc.abstractmethod
+    def click_com_botao_esquerdo(self):
+        pass
+
+class OuvidorDeMouseConcreto(OuvidorDeMouse):
+
+    def click_com_botao_direito(self):
+        pass
+
+    def click_com_botao_esquerdo(self):
+        pass
+
+
+
+if __name__ == '__main__':
+    ouvidor_de_mouse = OuvidorDeMouseConcreto()
+
+    ouvidor_de_mouse.click_com_botao_direito()
+    ouvidor_de_mouse.click_com_botao_esquerdo()
 
 
 class ListaComFatiaLinear:
