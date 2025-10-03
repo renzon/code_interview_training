@@ -18,13 +18,15 @@ def two_sum(nums: List[int], target: int) -> Tuple[int, int]:
         ...
     two_sum.MinLenException: nums must have at least to elements, but has 1
     >>> two_sum([1, 3, 8], 9)
-    (1, 8)
+    (0, 2)
     >>> two_sum([1, 3, 8], 2)
     Traceback (most recent call last):
         ...
     ValueError: No solution found
     >>> two_sum([1, 3, 8, 1], 2)
-    (1, 1)
+    (0, 3)
+    >>> two_sum([2,7,11,15], 9)
+    (0, 1)
     """
 
     # Solution O(n) in time and memory
@@ -32,11 +34,17 @@ def two_sum(nums: List[int], target: int) -> Tuple[int, int]:
     n = len(nums)
     if n <= 1:
         raise MinLenException(f'nums must have at least to elements, but has {n}')
-    frequencies = Counter(nums)
-    for num, freq in frequencies.items():
+    index_map={}
+    for idx, num in enumerate(nums):
+        indexes = index_map.get(num, [])
+        indexes.append(idx)
+        index_map[num] = indexes
+    for num, indexes in index_map.items():
         complement = target - num
-        if complement in frequencies:
-            if complement != num or freq > 1:
-                return num, complement
+        if complement in index_map:
+            if complement != num:
+                return indexes[0], index_map[complement][0]
+            elif len(indexes) >= 2:
+                return indexes[0], indexes[1]
     raise ValueError('No solution found')
 
