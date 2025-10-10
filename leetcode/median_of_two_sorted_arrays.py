@@ -3,6 +3,7 @@ from typing import List, Union
 
 
 class ListView:
+
     """
     A class to represent contiguous sublists in a list with a constant
 
@@ -38,8 +39,10 @@ class ListView:
     [5]
     >>> second_half
     []
+    >>> first_half, second_half = l = ListView([1, 2, 3, 4, 5, 6, 7]).bissect()
+    >>> first_half + second_half
+    [1, 2, 3, 4, 5, 6, 7]
     """
-
 
     def __init__(self, l: List, begin_index: int = 0, new_len: int = None):
         self._l = l
@@ -65,7 +68,11 @@ class ListView:
         return self._l[self._begin_index + index]
 
     def __add__(self, other):
-        return ListView(list(self) + list(other))
+        if len(self) == 0:
+            return other
+        elif len(other) == 0:
+            return self
+        return ListView(self._l, min(self._begin_index, other._begin_index), len(self) + len(other))
 
     def __repr__(self):
         return repr(list(self))
@@ -194,7 +201,7 @@ def find_median_sorted_arrays(nums1: List[int], nums2: List[int]) -> float:
     if len(list_view_min)==0:
         lst= list_view_max
     else:
-        lst = sorted(list_view_max[:2] + list_view_min[:2])
+        lst = sorted(list(list_view_max[:2]) + list(list_view_min[:2]))
     return (lst[i] + lst[j]) / 2
 
 
